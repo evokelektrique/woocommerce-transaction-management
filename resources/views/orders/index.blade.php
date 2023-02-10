@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="card">
@@ -15,7 +15,6 @@
                     @endif
 
                     {{ $dataTable->table() }}
-
                 </div>
             </div>
         </div>

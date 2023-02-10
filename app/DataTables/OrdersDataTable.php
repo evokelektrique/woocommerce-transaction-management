@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class OrdersDataTable extends DataTable {
@@ -67,15 +65,13 @@ class OrdersDataTable extends DataTable {
         return [
             Column::make('id'),
             Column::make('order_id'),
-            Column::make("customer.first_name"),
-            Column::make("customer.last_name"),
-            Column::make("customer.username"),
+            Column::make("variation"),
+            Column::make("price"),
+            Column::make("status"),
+            Column::make("customer.first_name")->title("First name"),
+            Column::make("customer.last_name")->title("Last name"),
             Column::make('updated_at'),
             Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
         ];
     }
 
