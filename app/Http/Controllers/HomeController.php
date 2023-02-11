@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\OrdersDataTable;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use App\DataTables\OrdersDataTable;
 
 class HomeController extends Controller {
     
@@ -17,6 +18,8 @@ class HomeController extends Controller {
     }
 
     public function index() {
-        return view("welcome");
+        $orders_total = Order::count();
+
+        return view("home", compact("orders_total"));
     }
 }

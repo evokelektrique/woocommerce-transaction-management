@@ -12,3 +12,18 @@
 @import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
 @import "datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css";
 @import 'datatables.net-select-bs5/css/select.bootstrap5.css';
+
+.custom-popover {
+    text-align: center;
+    
+    --bs-popover-max-width: 200px;
+    --bs-popover-border-color: var(--bs-primary);
+    --bs-popover-header-bg: var(--bs-primary);
+    --bs-popover-header-color: var(--bs-white);
+
+    --bs-popover-header-padding-x: .5rem;
+    --bs-popover-header-padding-y: .5rem;
+
+    --bs-popover-body-padding-x: .5rem;
+    --bs-popover-body-padding-y: .5rem;
+  }

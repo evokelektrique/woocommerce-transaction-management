@@ -15,7 +15,7 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/sass/app.scss'])
 </head>
 
 <body>
@@ -75,7 +75,8 @@
             @yield('content')
         </main>
     </div>
-
+    
+    @vite(['resources/js/app.js'])
     @stack('scripts')
 </body>
 </html>

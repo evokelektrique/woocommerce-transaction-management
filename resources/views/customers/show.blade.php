@@ -8,13 +8,42 @@
                 <div class="card-header">Customer <span>(#{{ $customer->id }})</span></div>
 
                 <div class="card-body">
-                    <div>{{ $customer->id }}</div>
-                    <div>{{ $customer->username }}</div>
-                    <div>{{ $customer->first_name }}</div>
-                    <div>{{ $customer->last_name }}</div>
-                    <div>{{ $customer->email }}</div>
-                    <div>{{ $customer->phone }}</div>
-                    <div>{{ $customer->created_at }}</div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="fw-bold me-2 badge bg-secondary text-capitalize">id</span>
+                            {{ $customer->id }}
+                        </li>
+
+                        <li class="list-group-item">
+                            <span class="fw-bold me-2 badge bg-secondary text-capitalize">username</span>
+                            {{ $customer->username }}
+                        </li>
+
+                        <li class="list-group-item">
+                            <span class="fw-bold me-2 badge bg-secondary text-capitalize">first name</span>
+                            {{ $customer->first_name }}
+                        </li>
+
+                        <li class="list-group-item">
+                            <span class="fw-bold me-2 badge bg-secondary text-capitalize">last name</span>
+                            {{ $customer->last_name }}
+                        </li>
+
+                        <li class="list-group-item">
+                            <span class="fw-bold me-2 badge bg-secondary text-capitalize">email</span>
+                            {{ $customer->email }}
+                        </li>
+
+                        <li class="list-group-item">
+                            <span class="fw-bold me-2 badge bg-secondary text-capitalize">phone</span>
+                            {{ $customer->phone }}
+                        </li>
+
+                        <li class="list-group-item">
+                            <span class="fw-bold me-2 badge bg-secondary text-capitalize">created at</span>
+                            {{ $customer->created_at }}
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

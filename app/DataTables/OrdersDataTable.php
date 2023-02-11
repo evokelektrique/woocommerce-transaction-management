@@ -20,6 +20,11 @@ class OrdersDataTable extends DataTable {
     public function dataTable(QueryBuilder $query): EloquentDataTable {
         return (new EloquentDataTable($query))
             ->addColumn('action', 'orders.action')
+            ->addColumn('notes', function(Order $order) {
+                return $order->notes->map(function($note) {
+                    return $note->content;
+                })->implode(' - ');
+            })
             ->setRowId('order_id');
     }
 
@@ -53,6 +58,10 @@ class OrdersDataTable extends DataTable {
                 Button::make('print'),
                 Button::make('reset'),
                 Button::make('reload')
+            ])
+            ->parameters([
+                'initComplete' => 'function() { initalize_datatable(this); }',
+                'drawCallback' => 'function() { draw_popovers(); }',
             ]);
     }
 
@@ -63,15 +72,16 @@ class OrdersDataTable extends DataTable {
      */
     public function getColumns(): array {
         return [
-            Column::make('id'),
             Column::make('order_id'),
             Column::make("variation"),
             Column::make("price"),
             Column::make("status"),
             Column::make("customer.first_name")->title("First name"),
             Column::make("customer.last_name")->title("Last name"),
+            Column::computed('notes'),
             Column::make('updated_at'),
             Column::computed('action')
+            ->exportable(false)
         ];
     }
 
