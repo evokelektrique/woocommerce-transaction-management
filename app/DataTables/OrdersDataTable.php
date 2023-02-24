@@ -21,7 +21,7 @@ class OrdersDataTable extends DataTable {
         return (new EloquentDataTable($query))
             ->addColumn('action', 'orders.action')
             ->addColumn('notes', function(Order $order) {
-                return $order->notes->map(function($note) {
+                return $order->notes->where('type', 'support')->map(function($note) {
                     return $note->content;
                 })->implode(' - ');
             })
@@ -48,7 +48,6 @@ class OrdersDataTable extends DataTable {
             ->setTableId('orders-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            // ->dom('Bfrtip') 
             ->orderBy(1)
             ->selectStyleSingle()
             ->buttons([
@@ -62,6 +61,9 @@ class OrdersDataTable extends DataTable {
             ->parameters([
                 'initComplete' => 'function() { initalize_datatable(this); }',
                 'drawCallback' => 'function() { draw_popovers(); }',
+                'order' => [
+                    0, 'desc'
+                ],
             ]);
     }
 
@@ -80,8 +82,7 @@ class OrdersDataTable extends DataTable {
             Column::make("customer.last_name")->title("Last name"),
             Column::computed('notes'),
             Column::make('updated_at'),
-            Column::computed('action')
-            ->exportable(false)
+            Column::computed('action')->exportable(false)->searchPanes(false)
         ];
     }
 

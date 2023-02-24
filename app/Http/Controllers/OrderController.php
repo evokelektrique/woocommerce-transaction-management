@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\DataTables\OrdersDataTable;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller {
 
@@ -39,9 +40,8 @@ class OrderController extends Controller {
             ]
         );
 
-        $note = $order->notes()->firstOrCreate([
-            "content" => $request->note["content"] || "undefined",
-        ], [
+        $note = $order->notes()->create([
+            "content" => $request->note["content"],
             "type" => $request->note["type"],
         ]);
 

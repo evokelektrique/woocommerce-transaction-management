@@ -5,7 +5,14 @@
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">Customer <span>(#{{ $customer->id }})</span></div>
+                <div class="card-header bg-primary">
+                    <a href="{{ route('order.index') }}" class="btn btn-outline-light me-2">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <span class="fw-bold text-white">
+                        Customer (#{{ $customer->id }})
+                    </span>
+                </div>
 
                 <div class="card-body">
                     <ul class="list-group">

@@ -1,4 +1,4 @@
-<a class="btn btn-sm btn-secondary" href="{{ route("note.show", $id) }}" data-bs-toggle="popover" data-bs-placement="left" data-bs-title="Notes" data-bs-custom-class="custom-popover" data-bs-content="List of order notes" data-bs-trigger="hover">
+<a class="btn btn-sm btn-primary mb-2" href="{{ route("note.show", $id) }}" data-bs-toggle="popover" data-bs-placement="left" data-bs-title="Notes" data-bs-custom-class="custom-popover" data-bs-content="List of order notes" data-bs-trigger="hover">
     <i class="bi bi-journals"></i>
 </a>
 

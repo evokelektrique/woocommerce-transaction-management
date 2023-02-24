@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Models\Note;
 use App\Models\Customer;
-use GuzzleHttp\Psr7\Request;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model {

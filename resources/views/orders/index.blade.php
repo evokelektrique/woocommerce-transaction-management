@@ -4,8 +4,15 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header">Orders</div>
+            <div class="card border-primary">
+                <div class="card-header bg-primary">
+                    <a href="{{ route("home.index") }}" class="btn btn-outline-light me-2">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <span class="fw-bold text-white">
+                        Orders
+                    </span>
+                </div>
 
                 <div class="card-body">
                     @if (session('status'))
