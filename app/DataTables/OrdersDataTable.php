@@ -20,11 +20,8 @@ class OrdersDataTable extends DataTable {
     public function dataTable(QueryBuilder $query): EloquentDataTable {
         return (new EloquentDataTable($query))
             ->addColumn('action', 'orders.action')
-            ->addColumn('notes', function(Order $order) {
-                return $order->notes->where('type', 'support')->map(function($note) {
-                    return $note->content;
-                })->implode(' - ');
-            })
+            ->addColumn('notes', 'orders.support_note')
+            ->rawColumns(['action', 'notes'])
             ->setRowId('order_id');
     }
 

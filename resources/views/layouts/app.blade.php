@@ -76,6 +76,7 @@
         </main>
     </div>
     
+    @routes
     @vite(['resources/js/app.js'])
     @stack('scripts')
 </body>

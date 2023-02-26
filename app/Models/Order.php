@@ -13,6 +13,7 @@ class Order extends Model {
         "variation",
         "price",
         "status",
+        "support_note",
     ];
 
     public function customer() {

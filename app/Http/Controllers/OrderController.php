@@ -19,6 +19,16 @@ class OrderController extends Controller {
         $this->middleware('auth');
     }
 
+    public function index(OrdersDataTable $dataTable) {
+        return $dataTable->render('orders.index');
+    }
+
+    public function update_support_note(Order $order, Request $request) {
+        $order->update(["support_note" => $request->support_note]);
+        
+        return response()->json(["success" => true]);
+    }
+
     public function create(Request $request) {
         $customer = Customer::updateOrCreate(
             ["email" => $request->customer['email']],
@@ -50,9 +60,5 @@ class OrderController extends Controller {
             "order" => $order,
             "note" => $note,
         ]);
-    }
-
-    public function index(OrdersDataTable $dataTable) {
-        return $dataTable->render('orders.index');
     }
 }

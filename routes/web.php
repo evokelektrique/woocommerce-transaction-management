@@ -26,13 +26,15 @@ Route::get("/register", function () {
     abort(403);
 });
 
-Route::get('/orders', [OrderController::class, 'index'])->name('order.index');
+Route::prefix('orders')->group(function () {
+    Route::get('/', [OrderController::class, 'index'])->name('order.index');
+    Route::post('/{order}/update_support_note', [OrderController::class, "update_support_note"])->name("order.update_support_note");
+});
 
 Route::prefix('notes')->group(function () {
     Route::get('/{order}', [NoteController::class, "show"])->name("note.show");
     Route::post('/store', [NoteController::class, "store"])->name("note.store");
     Route::delete('/destroy/{note}', [NoteController::class, "destroy"])->name("note.destroy");
-
 });
 
 Route::prefix('customer')->group(function () {

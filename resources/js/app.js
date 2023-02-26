@@ -8,6 +8,8 @@ window.draw_popovers = () => {
     const popoverList = [...popoverTriggerList].map(
         (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
     );
+
+    support_note_event_listener();
 };
 
 window.initalize_datatable = (table) => {
@@ -15,50 +17,49 @@ window.initalize_datatable = (table) => {
         .api()
         .columns()
         .every(function () {
-            var column = this;
-            console.log(column);
-            var select = $(
-                '<select class="form-select"><option value="">Filter</option></select>'
-            )
+            const column = this;
+            $('<input type="text" class="form-control">')
                 .appendTo($(column.header()))
-                .on("change", function () {
+                .on("input", function () {
                     var val = $.fn.dataTable.util.escapeRegex($(this).val());
-
-                    column
-                        .search(val ? "^" + val + "$" : "", true, false)
-                        .draw();
-                });
-
-            column
-                .data()
-                .unique()
-                .sort()
-                .each(function (d, j) {
-                    select.append(
-                        '<option value="' + d + '">' + d + "</option>"
-                    );
+                    console.log(val);
+                    column.search(val).draw();
                 });
         });
 };
 
-// function filter_notes(notes, type) {
-//     return notes.filter((el) => (el.type.toLowerCase() === type.toLowerCase()));
-// }
-
-// window.draw_notes = function (row, type) {
-//     console.log(row)
-//     const notes = row.notes;
-//     const filtered_notes = filter_notes(notes, type);
-//     // console.log(filtered_notes);
-//     const content_notes = [];
-//     Array.from(filtered_notes).forEach((note) => {
-//         if (note) { 
-//             console.log(note);
-//             content_notes.push(note.content);
-//         }
-//     });
-
-//     return content_notes.join(" - ");
-// };
-
 draw_popovers();
+
+function support_note_event_listener() {
+    const support_note_forms = document.querySelectorAll(".support_note_form");
+    Array.from(support_note_forms).forEach((form) => {
+        
+        const support_note = form.querySelector("textarea");
+        console.log(support_note);
+
+        support_note.addEventListener("input", async (e) => {
+            e.preventDefault();
+            
+            const status_element = e.target.parentElement.querySelector("#support_note_status");
+            const id = form.dataset.id;
+            const support_note = e.target.value;
+            
+            add_loading(status_element, "Saving ...");
+            await axios.post(route("order.update_support_note", id), {
+                support_note,
+            });
+            remove_loading(status_element, "Saved");
+        });
+    });
+}
+
+function add_loading(element, text) {
+    const loading_icon = `<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>`;
+    element.setAttribute("disabled", "");
+    element.innerHTML = loading_icon + text;
+}
+
+function remove_loading(element, text) {
+    element.innerHTML = text;
+    element.removeAttribute("disabled");
+}
