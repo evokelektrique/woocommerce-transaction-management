@@ -15,3 +15,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/public/error_log
+error_log
+.htaccess
