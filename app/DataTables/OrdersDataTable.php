@@ -46,7 +46,7 @@ class OrdersDataTable extends DataTable {
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->orderBy(1)
-            ->selectStyleSingle()
+            // ->selectStyleSingle() // Currently disabling select feature
             ->buttons([
                 Button::make('excel'),
                 Button::make('csv'),
@@ -77,7 +77,7 @@ class OrdersDataTable extends DataTable {
             Column::make("status"),
             Column::make("customer.first_name")->title("First name"),
             Column::make("customer.last_name")->title("Last name"),
-            Column::computed('notes'),
+            Column::computed('notes')->searchPanes(false),
             Column::make('updated_at'),
             Column::computed('action')->exportable(false)->searchPanes(false)
         ];

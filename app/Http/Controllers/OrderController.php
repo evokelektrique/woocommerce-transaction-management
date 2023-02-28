@@ -25,7 +25,7 @@ class OrderController extends Controller {
 
     public function update_support_note(Order $order, Request $request) {
         $order->update(["support_note" => $request->support_note]);
-        
+
         return response()->json(["success" => true]);
     }
 
@@ -50,9 +50,12 @@ class OrderController extends Controller {
             ]
         );
 
-        $note = $order->notes()->create([
+        $note = $order->notes()->updateOrCreate([
             "content" => $request->note["content"],
             "type" => $request->note["type"],
+        ], [
+            "content" => $request->note["content"],
+            "type" => $request->note["type"]
         ]);
 
         return response()->json([
