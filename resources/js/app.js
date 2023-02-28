@@ -33,17 +33,18 @@ draw_popovers();
 function support_note_event_listener() {
     const support_note_forms = document.querySelectorAll(".support_note_form");
     Array.from(support_note_forms).forEach((form) => {
-        
         const support_note = form.querySelector("textarea");
         console.log(support_note);
 
         support_note.addEventListener("input", async (e) => {
             e.preventDefault();
-            
-            const status_element = e.target.parentElement.querySelector("#support_note_status");
+
+            const status_element = e.target.parentElement.querySelector(
+                "#support_note_status"
+            );
             const id = form.dataset.id;
             const support_note = e.target.value;
-            
+
             add_loading(status_element, "Saving ...");
             await axios.post(route("order.update_support_note", id), {
                 support_note,

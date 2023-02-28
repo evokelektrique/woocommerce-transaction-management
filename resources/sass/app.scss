@@ -1,5 +1,5 @@
 // Fonts
-@import url("https://fonts.bunny.net/css?family=Nunito");
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&family=Vazirmatn:wght@400;700&display=swap');
 
 // Variables
 @import "variables";
@@ -28,3 +28,7 @@
     --bs-popover-body-padding-y: 0.5rem;
 }
 
+// Bootstrap font icons enhancement
+i.bi {
+    display: flex;
+}

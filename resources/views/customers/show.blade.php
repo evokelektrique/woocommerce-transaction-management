@@ -6,10 +6,10 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header bg-primary">
-                    <a href="{{ route('order.index') }}" class="btn btn-outline-light me-2">
-                        <i class="bi bi-arrow-left"></i>
+                    <a href="{{ route('order.index') }}" class="btn btn-outline-light me-2 py-2">
+                        <i class="d-flex bi bi-arrow-left"></i>
                     </a>
-                    <span class="fw-bold text-white">
+                    <span class="fw-bold">
                         Customer (#{{ $customer->id }})
                     </span>
                 </div>

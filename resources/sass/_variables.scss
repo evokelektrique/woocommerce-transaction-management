@@ -2,6 +2,21 @@
 $body-bg: #f8fafc;
 
 // Typography
-$font-family-sans-serif: 'Nunito', sans-serif;
+$font-family-sans-serif: 'Vazirmatn', sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
+
+
+$white: #ffffff;
+$theme-colors: (
+    "white": $white,
+    "light": #e5e9ec,
+    "dark": #322845,
+    "primary": #81b3fa,
+    "secondary": #dbe6e6,
+    "info": #eed0c8,
+    "success": #4ac180,
+    "warning": #fdba54,
+    "danger": #eb383c,
+    "solarized": #fdf6e3,
+);

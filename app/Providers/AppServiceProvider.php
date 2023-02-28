@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,5 +25,11 @@ class AppServiceProvider extends ServiceProvider {
         Vite::useScriptTagAttributes([
             'defer' => true,
         ]);
+
+        View::composer('*', function ($view) {
+            $view_name = str_replace('.', ' ', $view->getName());
+
+            View::share('view_name', $view_name);
+        });
     }
 }

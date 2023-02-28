@@ -1,7 +1,7 @@
-<a class="btn btn-sm btn-primary my-2" href="{{ route("note.show", $id) }}" data-bs-toggle="popover" data-bs-placement="left" data-bs-title="Notes" data-bs-custom-class="custom-popover" data-bs-content="List of order notes" data-bs-trigger="hover">
-    <i class="bi bi-journals"></i>
+<a class="btn btn-sm btn-primary my-2 py-2" href="{{ route("note.show", $id) }}" data-bs-toggle="popover" data-bs-placement="left" data-bs-title="Notes" data-bs-custom-class="custom-popover" data-bs-content="List of order notes" data-bs-trigger="hover">
+    <i class="d-flex bi bi-journals"></i>
 </a>
 
-<a class="btn btn-sm btn-secondary my-2" href="{{ route("customer.show", $customer["id"]) }}" data-bs-toggle="popover" data-bs-placement="left" data-bs-title="Customer" data-bs-custom-class="custom-popover" data-bs-content="Retrieve customer information" data-bs-trigger="hover">
-    <i class="bi bi-person"></i>
+<a class="btn btn-sm btn-secondary my-2 py-2" href="{{ route("customer.show", $customer["id"]) }}" data-bs-toggle="popover" data-bs-placement="left" data-bs-title="Customer" data-bs-custom-class="custom-popover" data-bs-content="Retrieve customer information" data-bs-trigger="hover">
+    <i class="d-flex bi bi-person"></i>
 </a>

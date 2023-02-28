@@ -50,18 +50,21 @@ class OrderController extends Controller {
             ]
         );
 
-        $note = $order->notes()->updateOrCreate([
-            "content" => $request->note["content"],
-            "type" => $request->note["type"],
-        ], [
-            "content" => $request->note["content"],
-            "type" => $request->note["type"]
-        ]);
+        $notes = [];
+        foreach($request->notes as $note) {
+            $notes[] = $order->notes()->updateOrCreate([
+                "content" => $note["content"],
+                "type" => $note["type"],
+            ], [
+                "content" => $note["content"],
+                "type" => $note["type"]
+            ]);
+        }
 
         return response()->json([
             "customer" => $customer,
             "order" => $order,
-            "note" => $note,
+            "notes" => $notes,
         ]);
     }
 }

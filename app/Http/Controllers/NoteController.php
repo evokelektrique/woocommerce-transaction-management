@@ -25,6 +25,25 @@ class NoteController extends Controller {
         return view("notes.show", compact("order"));
     }
 
+    public function create(Request $request) {
+        $order = Order::where("order_id", $request->order["id"])->firstOrFail();
+        $notes = [];
+
+        foreach ($request->notes as $note) {
+            $notes[] = $order->notes()->updateOrCreate([
+                "content" => $note["content"],
+                "type" => $note["type"],
+            ], [
+                "content" => $note["content"],
+                "type" => $note["type"]
+            ]);
+        }
+
+        return response()->json([
+            "notes" => $notes,
+        ]);
+    }
+
     public function destroy(Note $note) {
         $note->delete();
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\OrderController;
 
 /*
@@ -17,4 +18,8 @@ use App\Http\Controllers\OrderController;
 
 Route::prefix('order')->middleware(["auth:sanctum"])->group(function () {
     Route::post('/create', [OrderController::class, "create"]);
+});
+
+Route::prefix('note')->middleware(["auth:sanctum"])->group(function () {
+    Route::post('/create', [NoteController::class, "create"]);
 });
