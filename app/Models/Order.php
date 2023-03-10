@@ -7,11 +7,18 @@ use App\Models\Customer;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model {
+
+    protected $casts = [
+        'variation' => 'array',
+        'metadata' => 'array'
+    ];
+
     protected $fillable = [
         "order_id",
         "customer_id",
         "variation",
         "price",
+        "metadata",
         "status",
         "support_note",
     ];
@@ -25,25 +32,22 @@ class Order extends Model {
     }
 
     public static function get_variations($items): string {
-        $item_variation = "";
 
         foreach ($items as $key => $value) {
             $quantity = $value['quantity'];
             $product_name = $key;
-            $item_variation .= "({$product_name} - x{$quantity} - ";
-
-            $count = count($value["variations"]);
-            $i = 0;
+            $item_variations = [];
             foreach ($value["variations"] as $variation) {
-                $item_variation .= $variation["key"] . " => " . $variation["value"];
-
-                if (++$i !== $count) {
-                    $item_variation .= " - ";
-                }
+                $item_variations[] = [
+                    $variation["key"] => $variation["value"]
+                ];
             }
-            $item_variation .= ") - ";
         }
 
-        return $item_variation;
+        return json_encode([
+            "product_name" => $product_name,
+            "quantity" => $quantity,
+            "variations" => $item_variations,
+        ]);
     }
 }

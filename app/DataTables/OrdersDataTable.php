@@ -20,8 +20,9 @@ class OrdersDataTable extends DataTable {
     public function dataTable(QueryBuilder $query): EloquentDataTable {
         return (new EloquentDataTable($query))
             ->addColumn('action', 'orders.action')
+            ->addColumn('variation', 'orders.variation')
             ->addColumn('notes', 'orders.support_note')
-            ->rawColumns(['action', 'notes'])
+            ->rawColumns(['action', 'variation', 'notes',])
             ->setRowId('order_id');
     }
 
@@ -77,7 +78,7 @@ class OrdersDataTable extends DataTable {
             Column::make("status"),
             Column::make("customer.first_name")->title("First name"),
             Column::make("customer.last_name")->title("Last name"),
-            Column::computed('notes')->searchPanes(false),
+            Column::computed('notes'),
             Column::make('updated_at'),
             Column::computed('action')->exportable(false)->searchPanes(false)
         ];

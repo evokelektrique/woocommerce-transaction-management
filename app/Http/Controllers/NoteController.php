@@ -31,10 +31,10 @@ class NoteController extends Controller {
 
         foreach ($request->notes as $note) {
             $notes[] = $order->notes()->updateOrCreate([
-                "content" => $note["content"],
+                "content" => $note["content"] ?? "",
                 "type" => $note["type"],
             ], [
-                "content" => $note["content"],
+                "content" => $note["content"] ?? "",
                 "type" => $note["type"]
             ]);
         }

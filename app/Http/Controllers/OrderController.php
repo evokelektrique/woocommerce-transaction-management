@@ -35,8 +35,7 @@ class OrderController extends Controller {
             [
                 "first_name" => $request->customer['first_name'],
                 "last_name" => $request->customer['last_name'],
-                "last_name" => $request->customer['last_name'],
-                "username" => $request->customer['username'] || "undefined",
+                "username" => $request->customer['username'] ?? "undefined",
                 "phone" => $request->customer['phone'],
             ]
         );
@@ -46,6 +45,7 @@ class OrderController extends Controller {
             [
                 "status" => $request->order['status'],
                 "price" => $request->order['price'],
+                "metadata" => $request->metadata,
                 "variation" => Order::get_variations($request->order['items']),
             ]
         );
@@ -53,10 +53,10 @@ class OrderController extends Controller {
         $notes = [];
         foreach($request->notes as $note) {
             $notes[] = $order->notes()->updateOrCreate([
-                "content" => $note["content"],
+                "content" => $note["content"] ?? "",
                 "type" => $note["type"],
             ], [
-                "content" => $note["content"],
+                "content" => $note["content"] ?? "",
                 "type" => $note["type"]
             ]);
         }
@@ -66,5 +66,9 @@ class OrderController extends Controller {
             "order" => $order,
             "notes" => $notes,
         ]);
+    }
+
+    public function show(Order $order) {
+        return view("orders.show", compact("order"));
     }
 }

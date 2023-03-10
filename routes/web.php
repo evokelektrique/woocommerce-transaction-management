@@ -28,6 +28,7 @@ Route::get("/register", function () {
 
 Route::prefix('orders')->group(function () {
     Route::get('/', [OrderController::class, 'index'])->name('order.index');
+    Route::get('/{order}', [OrderController::class, 'show'])->name('order.show');
     Route::post('/{order}/update_support_note', [OrderController::class, "update_support_note"])->name("order.update_support_note");
 });
 
