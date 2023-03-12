@@ -44,10 +44,10 @@ class OrdersDataTable extends DataTable {
     public function html(): HtmlBuilder {
         return $this->builder()
             ->setTableId('orders-table')
+            ->pageLength(50)
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->orderBy(1)
-            // ->selectStyleSingle() // Currently disabling select feature
             ->buttons([
                 Button::make('excel'),
                 Button::make('csv'),

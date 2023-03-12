@@ -11,8 +11,25 @@ window.draw_popovers = () => {
 
     support_note_event_listener();
 };
+draw_popovers();
 
 window.initalize_datatable = (table) => {
+    // Custom filters
+    const column_order_status = 3;
+    const default_order_status = "processing";
+    // Default option
+    table.api().column(column_order_status).search(default_order_status).draw();
+    // Select on change search
+    document
+        .getElementById("filter-order-status")
+        .addEventListener("change", (e) => {
+            table
+                .api()
+                .column(column_order_status)
+                .search(e.target.value)
+                .draw();
+        });
+
     table
         .api()
         .columns()
@@ -22,19 +39,15 @@ window.initalize_datatable = (table) => {
                 .appendTo($(column.header()))
                 .on("input", function () {
                     var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                    console.log(val);
                     column.search(val).draw();
                 });
         });
 };
 
-draw_popovers();
-
 function support_note_event_listener() {
     const support_note_forms = document.querySelectorAll(".support_note_form");
     Array.from(support_note_forms).forEach((form) => {
         const support_note = form.querySelector("textarea");
-        console.log(support_note);
 
         support_note.addEventListener("input", async (e) => {
             e.preventDefault();

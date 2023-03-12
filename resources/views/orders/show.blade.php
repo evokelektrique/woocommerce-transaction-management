@@ -53,7 +53,10 @@
                             </div>
 
                             <div class="col-12 col-lg-6 align-self-center">
-                                <p class="fw-bold fs-1 text-center">Work in progress ...</p>
+                                <p class="fw-bold text-center">Work in progress ...</p>
+                                <code class="fw-bold fs-6 code text-center">
+                                    {{ print_r($order->metadata['product_dynamic_fields']) }}
+                                </code>
                             </div>
                         </div>
                     </div>
