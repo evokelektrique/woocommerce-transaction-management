@@ -116,7 +116,7 @@
                                     Support Notes
                                 </h3>
                                 <form class='support_note_form h-100 d-flex flex-column' data-id="{{ $order->id }}">
-                                    <textarea class="form-control mb-2 h-100 fs-5" placeholder="Support note ..." id="support_note">{{ $order->support_note }}</textarea>
+                                    <textarea class="form-control mb-2 h-100 fs-5" placeholder="Support note ..." id="support_note_{{ $order->id }}">{{ $order->support_note }}</textarea>
                                     <div id="support_note_status" class="text-success align-items-center justify-content-start d-flex gap-2"></div>
                                 </form>
                             </div>

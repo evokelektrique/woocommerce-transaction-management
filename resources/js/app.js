@@ -45,12 +45,35 @@ window.initalize_datatable = (table) => {
 };
 
 function support_note_event_listener() {
+    Echo.channel("notes").listen(".support-note", (event) => {
+        const support_note_textarea = document.querySelector(
+            `#support_note_${event.order.id}`
+        );
+        const form = support_note_textarea.parentElement;
+        const status_element = form.querySelector("#support_note_status");
+        add_loading(status_element, `${event.user.name} is typing...`);
+        setTimeout(() => {
+            const language = "fa";
+            const date = new Date(event.on).toLocaleString(language);
+            remove_loading(status_element, `${event.user.name} typed at (${date})`);
+        }, 1000)
+        support_note_textarea.value = event.message;
+        console.log(event);
+    });
+
     const support_note_forms = document.querySelectorAll(".support_note_form");
+
+    // Debounce timeout
+    let timeout = null;
+
     Array.from(support_note_forms).forEach((form) => {
         const support_note = form.querySelector("textarea");
 
-        support_note.addEventListener("input", async (e) => {
+        support_note.addEventListener("keyup", async (e) => {
             e.preventDefault();
+
+            // Clear debounce timeout
+            clearTimeout(timeout);
 
             const status_element = e.target.parentElement.querySelector(
                 "#support_note_status"
@@ -59,10 +82,14 @@ function support_note_event_listener() {
             const support_note = e.target.value;
 
             add_loading(status_element, "Saving ...");
-            await axios.post(route("order.update_support_note", id), {
-                support_note,
-            });
-            remove_loading(status_element, "Saved");
+
+            // Create a new timeout and set to go off in 1000ms
+            timeout = setTimeout(async () => {
+                await axios.post(route("order.update_support_note", id), {
+                    support_note,
+                });
+                remove_loading(status_element, "Saved");
+            }, 1000);
         });
     });
 }

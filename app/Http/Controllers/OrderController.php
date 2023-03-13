@@ -6,6 +6,8 @@ use App\Models\Order;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\DataTables\OrdersDataTable;
+use App\Events\SupportNote;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller {
@@ -24,7 +26,11 @@ class OrderController extends Controller {
     }
 
     public function update_support_note(Order $order, Request $request) {
-        $order->update(["support_note" => $request->support_note]);
+        $message = $request->support_note;
+        $user = Auth::user();
+        $order->update(["support_note" => $message]);
+
+        event(new SupportNote($user, $order, $message));
 
         return response()->json(["success" => true]);
     }
