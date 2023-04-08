@@ -16,9 +16,11 @@ draw_popovers();
 window.initalize_datatable = (table) => {
     // Custom filters
     const column_order_status = 3;
-    const default_order_status = "processing";
+
     // Default option
+    const default_order_status = "processing";
     table.api().column(column_order_status).search(default_order_status).draw();
+
     // Select on change search
     document
         .getElementById("filter-order-status")

@@ -32,22 +32,23 @@ class Order extends Model {
     }
 
     public static function get_variations($items): string {
+        // $products = [];
 
-        foreach ($items as $key => $value) {
-            $quantity = $value['quantity'];
-            $product_name = $key;
-            $item_variations = [];
-            foreach ($value["variations"] as $variation) {
-                $item_variations[] = [
-                    $variation["key"] => $variation["value"]
-                ];
-            }
-        }
+        // foreach ($items as $key => $value) {
+        //     // Quantity
+        //     $products[$key]["quantity"] = $value['quantity'];
+        //     $products[$key]["quantity"] = $value['quantity'];
 
-        return json_encode([
-            "product_name" => $product_name,
-            "quantity" => $quantity,
-            "variations" => $item_variations,
-        ]);
+        //     $item_variations = [];
+        //     foreach ($value["variations"] as $variation) {
+        //         $item_variations[] = [
+        //             $variation["key"] => $variation["value"]
+        //         ];
+        //     }
+
+        //     $product_name[$key]["variations"] = $item_variations;
+        // }
+
+        return json_encode($items);
     }
 }

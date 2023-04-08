@@ -36,6 +36,10 @@ class OrderController extends Controller {
     }
 
     public function create(Request $request) {
+        if (empty($request->customer['username'])) {
+            return response()->json(["message" => "username not found"], 403);
+        }
+
         $customer = Customer::updateOrCreate(
             ["email" => $request->customer['email']],
             [
@@ -57,7 +61,7 @@ class OrderController extends Controller {
         );
 
         $notes = [];
-        foreach($request->notes as $note) {
+        foreach ($request->notes as $note) {
             $notes[] = $order->notes()->updateOrCreate([
                 "content" => $note["content"] ?? "",
                 "type" => $note["type"],

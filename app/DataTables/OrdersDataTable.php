@@ -22,7 +22,8 @@ class OrdersDataTable extends DataTable {
             ->addColumn('action', 'orders.action')
             ->addColumn('variation', 'orders.variation')
             ->addColumn('notes', 'orders.support_note')
-            ->rawColumns(['action', 'variation', 'notes',])
+            ->addColumn('updated_at', 'orders.updated_at')
+            ->rawColumns(['action', 'variation', 'notes', 'updated_at'])
             ->setRowId('order_id');
     }
 
@@ -79,8 +80,8 @@ class OrdersDataTable extends DataTable {
             Column::make("customer.first_name")->title("First name"),
             Column::make("customer.last_name")->title("Last name"),
             Column::computed('notes'),
-            Column::make('updated_at'),
-            Column::computed('action')->exportable(false)->searchPanes(false)
+            Column::computed('updated_at'),
+            Column::computed('action')->printable(false)->exportable(false)->searchPanes(false)
         ];
     }
 
