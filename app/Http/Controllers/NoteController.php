@@ -28,6 +28,7 @@ class NoteController extends Controller {
     public function create(Request $request) {
         $order = Order::where("order_id", $request->order["id"])->firstOrFail();
         $notes = [];
+        $order->notes()->delete();
 
         foreach ($request->notes as $note) {
             $notes[] = $order->notes()->updateOrCreate([

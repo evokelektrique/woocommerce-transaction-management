@@ -67,49 +67,6 @@
                                 </form>
                             </div>
 
-                            {{-- Order Notes --}}
-                            <div class="col-12 col-md-4">
-                                <h3 class="fw-bold mb-3">
-                                    Order Notes
-                                </h3>
-                                @forelse ($order->notes->where('type', 'order') as $note)
-                                    <div class="card border-secondary mb-4">
-                                        <div
-                                            class="card-header bg-transparent border-secondary d-flex align-items-center justify-content-between">
-                                            <b>#{{ $note->id }}</b>
-                                            <form class="d-inline-block" action="{{ route('note.destroy', $note) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm py-2 text-white">
-                                                    <i class="d-flex bi bi-trash"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                        <div class="card-body text-dark">
-                                            <p class="card-text">
-                                                {{ $note->content }}
-                                            </p>
-                                        </div>
-                                        <div class="card-footer bg-transparent border-secondary text-muted" title="{{ $note->created_at }}">
-                                            {{ $note->created_at->diffForHumans() }}
-                                        </div>
-                                    </div>
-                                @empty
-                                    <div class="text-center fw-bold text-secondary border rounded py-5 mb-4">Empty</div>
-                                @endforelse
-
-                                <form action="{{ route('note.store') }}" method="POST">
-                                    @csrf
-                                    <textarea class="form-control mb-3" name="content" id="note-content" placeholder="Enter your note content..."></textarea>
-
-                                    <button type="submit" class="btn btn-success btn-sm fw-bold w-100">Add</button>
-
-                                    <input type="hidden" name="order_id" value="{{ $order->id }}">
-                                    <input type="hidden" name="type" value="order">
-                                </form>
-                            </div>
-
                             {{-- Support Notes --}}
                             <div class="col-12 col-md-4 d-flex flex-column">
                                 <h3 class="fw-bold mb-3">

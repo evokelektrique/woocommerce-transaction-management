@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\DataTables\OrdersDataTable;
 use App\Events\SupportNote;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller {
 
@@ -36,8 +35,8 @@ class OrderController extends Controller {
     }
 
     public function create(Request $request) {
-        if (empty($request->customer['username'])) {
-            return response()->json(["message" => "username not found"], 403);
+        if (empty($request->customer['email']) && empty($request->customer['phone'])) {
+            return response()->json(["message" => "Email or phone not found"], 403);
         }
 
         $customer = Customer::updateOrCreate(
@@ -61,6 +60,7 @@ class OrderController extends Controller {
         );
 
         $notes = [];
+        $order->notes()->delete();
         foreach ($request->notes as $note) {
             $notes[] = $order->notes()->updateOrCreate([
                 "content" => $note["content"] ?? "",
