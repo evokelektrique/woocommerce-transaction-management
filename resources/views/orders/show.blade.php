@@ -22,13 +22,13 @@
                         @endif
 
                         <div class="row row-cols-auto">
-                            <div class="col-12 col-lg-6">
+                            <div class="col-12 col-lg-12">
                                 <h1 class="fw-bold text-center my-3">Accounts</h1>
 
                                 @empty($order->metadata['order_dynamic_fields'])
-                                <div class="border p-3 rounded shadow-sm">
-                                    Empty
-                                </div>
+                                    <div class="border p-3 rounded shadow-sm">
+                                        Empty
+                                    </div>
                                 @endempty
 
                                 <div class="row gx-lg-3 gy-3">
@@ -37,12 +37,13 @@
                                             <div class="border p-3 rounded shadow-sm">
                                                 <div class="row row-cols-auto gy-3 gx-lg-3">
                                                     @foreach ($dynamic_fields as $key => $value)
-                                                        <div class="col-12 col-lg-3">
-                                                            <div class="d-flex flex-column h-100">
-                                                                <span
-                                                                    class="user-select-none fs-6">{{ $key }}</span><span
-                                                                    class="h-100 text-white bg-dark fs-5 p-2 rounded">{{ $value }}</span>
-                                                            </div>
+                                                        @empty($value)
+                                                            @continue
+                                                        @endempty
+                                                        <div class="d-flex flex-column h-100">
+                                                            <span
+                                                                class="user-select-none fs-6">{{ $key }}</span><span
+                                                                class="h-100 text-dark fs-5 rounded">{{ $value }}</span>
                                                         </div>
                                                     @endforeach
                                                 </div>
@@ -50,13 +51,6 @@
                                         </div>
                                     @endforeach
                                 </div>
-                            </div>
-
-                            <div class="col-12 col-lg-6 align-self-center">
-                                <p class="fw-bold text-center">Work in progress ...</p>
-                                <code class="fw-bold fs-6 code text-center">
-                                    {{ print_r($order->metadata['product_dynamic_fields']) }}
-                                </code>
                             </div>
                         </div>
                     </div>

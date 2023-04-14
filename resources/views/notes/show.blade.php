@@ -48,7 +48,8 @@
                                                 {{ $note->content }}
                                             </p>
                                         </div>
-                                        <div class="card-footer bg-transparent border-secondary text-muted" title="{{ $note->created_at }}">
+                                        <div class="card-footer bg-transparent border-secondary text-muted"
+                                            title="{{ $note->created_at }}">
                                             {{ $note->created_at->diffForHumans() }}
                                         </div>
                                     </div>
@@ -68,19 +69,48 @@
                             </div>
 
                             {{-- Support Notes --}}
-                            <div class="col-12 col-md-4 d-flex flex-column">
+                            <div class="col-12 col-md-2 d-flex flex-column">
                                 <h3 class="fw-bold mb-3">
                                     Support Notes
                                 </h3>
                                 <form class='support_note_form h-100 d-flex flex-column' data-id="{{ $order->id }}">
                                     <textarea class="form-control mb-2 h-100 fs-5" placeholder="Support note ..." id="support_note_{{ $order->id }}">{{ $order->support_note }}</textarea>
-                                    <div id="support_note_status" class="text-success align-items-center justify-content-start d-flex gap-2"></div>
+                                    <div id="support_note_status"
+                                        class="text-success align-items-center justify-content-start d-flex gap-2"></div>
                                 </form>
                             </div>
+
+                            <div class="col-12 col-md-6 d-flex flex-column">
+                                <h3 class="fw-bold mb-3">
+                                    Accounts
+                                </h3>
+                            @empty($order->metadata['order_dynamic_fields'])
+                                <div class="border p-3 rounded shadow-sm">
+                                    Empty
+                                </div>
+                            @endempty
+                            @foreach ($order->metadata['order_dynamic_fields'] as $dynamic_fields)
+                                <div class="col-12 g-3">
+                                    <div class="border p-3 rounded shadow-sm">
+                                        <div class="row row-cols-auto gy-3 gx-lg-3">
+                                            @foreach ($dynamic_fields as $key => $value)
+                                                @empty($value)
+                                                    @continue
+                                                @endempty
+                                                <div class="d-flex flex-column h-100">
+                                                    <span class="user-select-none fs-6">{{ $key }}</span><span
+                                                        class="h-100 text-dark fs-5 rounded">{{ $value }}</span>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
