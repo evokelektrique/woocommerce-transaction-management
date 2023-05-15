@@ -23,21 +23,18 @@ class CustomerAccountRepository {
             $expires_at = Carbon::parse($account["field_date"]);
             $expires_at->addDays(intval($account["field_expire_days"]));
 
-            $this->accounts[] = $customer->accounts()->updateOrCreate(
-                [
-                    "title" => $account["field_title"]
-                ],
-                [
-                    "title" => $account["field_title"],
-                    "code" => $account["field_code"],
-                    "date" => $account["field_date"],
-                    "email" => $account["field_email"],
-                    "password" => $account["field_password"],
-                    "username" => $account["field_username"],
-                    "expire_days" => $account["field_expire_days"],
-                    "expire_at" => $expires_at,
-                ]
-            );
+            $acc = [
+                "title" => $account["field_title"],
+                "code" => $account["field_code"],
+                "date" => $account["field_date"],
+                "email" => $account["field_email"],
+                "password" => $account["field_password"],
+                "username" => $account["field_username"],
+                "expire_days" => $account["field_expire_days"],
+                "expire_at" => $expires_at,
+            ];
+
+            $this->accounts[] = $customer->accounts()->updateOrCreate($acc, $acc);
         }
 
         return $this->accounts;
