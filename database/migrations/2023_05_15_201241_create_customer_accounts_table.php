@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('customer_accounts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Customer::class)->constrained();
-            $table->date("date")->nullable();
+            $table->timestamp("date")->nullable();
             $table->string("email")->nullable();
             $table->string("title")->nullable();
             $table->string("username")->nullable();
