@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Models\Note;
 use App\Models\Customer;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model {
 
@@ -23,32 +25,11 @@ class Order extends Model {
         "support_note",
     ];
 
-    public function customer() {
+    public function customer(): BelongsTo {
         return $this->belongsTo(Customer::class);
     }
 
-    public function notes() {
+    public function notes(): HasMany {
         return $this->hasMany(Note::class);
-    }
-
-    public static function get_variations($items): string {
-        // $products = [];
-
-        // foreach ($items as $key => $value) {
-        //     // Quantity
-        //     $products[$key]["quantity"] = $value['quantity'];
-        //     $products[$key]["quantity"] = $value['quantity'];
-
-        //     $item_variations = [];
-        //     foreach ($value["variations"] as $variation) {
-        //         $item_variations[] = [
-        //             $variation["key"] => $variation["value"]
-        //         ];
-        //     }
-
-        //     $product_name[$key]["variations"] = $item_variations;
-        // }
-
-        return json_encode($items);
     }
 }

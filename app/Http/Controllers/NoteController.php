@@ -6,11 +6,22 @@ use App\Models\Note;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Requests\NoteRequest;
+use App\Repositories\NoteRepository;
 
 class NoteController extends Controller {
 
+    private $noteRepository;
+
+    public function __construct(NoteRepository $noteRepository) {
+        $this->noteRepository = $noteRepository;
+    }
+
     public function store(NoteRequest $request) {
-        Note::firstOrCreate(["order_id" => $request->order_id, "content" => $request->content, "type" => $request->type]);
+        Note::firstOrCreate([
+            "order_id" => $request->order_id,
+            "content" => $request->content,
+            "type" => $request->type
+        ]);
 
         return redirect()->back()->with("success", "Note created successfully");
     }
@@ -26,19 +37,11 @@ class NoteController extends Controller {
     }
 
     public function create(Request $request) {
+        // Find order
         $order = Order::where("order_id", $request->order["id"])->firstOrFail();
-        $notes = [];
-        $order->notes()->delete();
 
-        foreach ($request->notes as $note) {
-            $notes[] = $order->notes()->updateOrCreate([
-                "content" => $note["content"] ?? "",
-                "type" => $note["type"],
-            ], [
-                "content" => $note["content"] ?? "",
-                "type" => $note["type"]
-            ]);
-        }
+        // Create notes for order
+        $notes = $this->noteRepository->create($order, $request);
 
         return response()->json([
             "notes" => $notes,

@@ -3,28 +3,65 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use App\Models\Customer;
-use Illuminate\Http\Request;
-use App\DataTables\OrdersDataTable;
 use App\Events\SupportNote;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\DataTables\OrdersDataTable;
+use Illuminate\Contracts\View\View;
+use App\Repositories\NoteRepository;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\OrderRepository;
+use App\Repositories\CustomerRepository;
+use App\Repositories\CustomerAccountRepository;
 
 class OrderController extends Controller {
+
+    /**
+     * Customer Repository
+     *
+     * @var CustomerRepository
+     */
+    private $customerRepository;
+
+    /**
+     * Order Repository
+     *
+     * @var OrderRepository
+     */
+    private $orderRepository;
+
+    /**
+     * Note Repository
+     *
+     * @var NoteRepository
+     */
+    private $noteRepository;
+
+    /**
+     * Customer Repository
+     *
+     * @var CustomerRepository
+     */
+    private $customerAccountRepository;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct(CustomerRepository $customerRepository, OrderRepository $orderRepository, NoteRepository $noteRepository, CustomerAccountRepository $customerAccountRepository) {
         $this->middleware('auth');
+        $this->customerRepository = $customerRepository;
+        $this->orderRepository = $orderRepository;
+        $this->noteRepository = $noteRepository;
+        $this->customerAccountRepository = $customerAccountRepository;
     }
 
-    public function index(OrdersDataTable $dataTable) {
+    public function index(OrdersDataTable $dataTable): mixed {
         return $dataTable->render('orders.index');
     }
 
-    public function update_support_note(Order $order, Request $request) {
+    public function update_support_note(Order $order, Request $request): JsonResponse {
         $message = $request->support_note;
         $user = Auth::user();
         $order->update(["support_note" => $message]);
@@ -34,51 +71,32 @@ class OrderController extends Controller {
         return response()->json(["success" => true]);
     }
 
-    public function create(Request $request) {
+    public function create(Request $request): JsonResponse {
         if (empty($request->customer['email']) && empty($request->customer['phone'])) {
             return response()->json(["message" => "Email or phone not found"], 403);
         }
 
-        $customer = Customer::updateOrCreate(
-            ["email" => $request->customer['email']],
-            [
-                "first_name" => $request->customer['first_name'],
-                "last_name" => $request->customer['last_name'],
-                "username" => $request->customer['username'] ?? "undefined",
-                "phone" => $request->customer['phone'],
-            ]
-        );
+        // Create customer
+        $customer = $this->customerRepository->create($request);
 
-        $order = $customer->orders()->updateOrCreate(
-            ["order_id" => $request->order['id']],
-            [
-                "status" => $request->order['status'],
-                "price" => $request->order['price'],
-                "metadata" => $request->metadata,
-                "variation" => Order::get_variations($request->order['items']),
-            ]
-        );
+        // Create an order for customer
+        $order = $this->orderRepository->create($customer, $request);
 
-        $notes = [];
-        $order->notes()->delete();
-        foreach ($request->notes as $note) {
-            $notes[] = $order->notes()->updateOrCreate([
-                "content" => $note["content"] ?? "",
-                "type" => $note["type"],
-            ], [
-                "content" => $note["content"] ?? "",
-                "type" => $note["type"]
-            ]);
-        }
+        // Create accounts for customer from order's metadata
+        $accounts = $this->customerAccountRepository->create($request);
+
+        // Create notes for order
+        $notes = $this->noteRepository->create($order, $request);
 
         return response()->json([
             "customer" => $customer,
             "order" => $order,
             "notes" => $notes,
+            "accounts" => $accounts,
         ]);
     }
 
-    public function show(Order $order) {
+    public function show(Order $order): View {
         return view("orders.show", compact("order"));
     }
 }
