@@ -73,7 +73,7 @@ class OrderController extends Controller {
 
     public function create(Request $request): JsonResponse {
         if (empty($request->customer['email']) && empty($request->customer['phone'])) {
-            return response()->json(["message" => "Email or phone not found"], 403);
+            return response()->json(["message" => "Email and phone not found"], 403);
         }
 
         // Create customer
@@ -86,7 +86,7 @@ class OrderController extends Controller {
         $accounts = $this->customerAccountRepository->create($request);
 
         // Create notes for order
-        $notes = $this->noteRepository->create($order, $request);
+        $notes = $this->noteRepository->createNotes($order, $request);
 
         return response()->json([
             "customer" => $customer,

@@ -7,6 +7,9 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Requests\NoteRequest;
 use App\Repositories\NoteRepository;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 
 class NoteController extends Controller {
 
@@ -16,12 +19,9 @@ class NoteController extends Controller {
         $this->noteRepository = $noteRepository;
     }
 
-    public function store(NoteRequest $request) {
-        Note::firstOrCreate([
-            "order_id" => $request->order_id,
-            "content" => $request->content,
-            "type" => $request->type
-        ]);
+    public function store(NoteRequest $request): RedirectResponse {
+        // Create note
+        $this->noteRepository->create($request);
 
         return redirect()->back()->with("success", "Note created successfully");
     }
@@ -32,23 +32,23 @@ class NoteController extends Controller {
      * @param Order $order
      * @return void
      */
-    public function show(Order $order) {
+    public function show(Order $order): View {
         return view("notes.show", compact("order"));
     }
 
-    public function create(Request $request) {
+    public function create(Request $request): JsonResponse {
         // Find order
         $order = Order::where("order_id", $request->order["id"])->firstOrFail();
 
         // Create notes for order
-        $notes = $this->noteRepository->create($order, $request);
+        $notes = $this->noteRepository->createNotes($order, $request);
 
         return response()->json([
             "notes" => $notes,
         ]);
     }
 
-    public function destroy(Note $note) {
+    public function destroy(Note $note): RedirectResponse {
         $note->delete();
 
         return redirect()->back()->with("success", "Note deleted successfully");
