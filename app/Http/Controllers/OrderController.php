@@ -83,7 +83,7 @@ class OrderController extends Controller {
         $order = $this->orderRepository->create($customer, $request);
 
         // Create accounts for customer from order's metadata
-        $accounts = $this->customerAccountRepository->create($request);
+        $accounts = $this->customerAccountRepository->create($customer, $request);
 
         // Create notes for order
         $notes = $this->noteRepository->createNotes($order, $request);

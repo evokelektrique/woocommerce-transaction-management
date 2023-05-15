@@ -14,6 +14,7 @@ class CustomerAccount extends Model {
         "date",
         "email",
         "title",
+        "code",
         "username",
         "password",
         "expire_days",
