@@ -15,13 +15,14 @@ return new class extends Migration {
         Schema::create('customer_accounts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Customer::class)->constrained();
-            $table->timestamp("date")->nullable();
+            $table->timestamp("date")->nullable()->comment("Account create date");
             $table->string("email")->nullable();
             $table->string("title")->nullable();
             $table->string("username")->nullable();
             $table->string("password")->nullable();
             $table->string("code")->nullable();
-            $table->integer("expire_days")->nullable();
+            $table->integer("expire_days")->nullable()->comment("Number of days after account expires");
+            $table->timestamp("expire_at")->nullable()->comment("Account will be expired at");
             $table->timestamps();
         });
     }

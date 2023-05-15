@@ -18,6 +18,11 @@ class CustomerAccount extends Model {
         "username",
         "password",
         "expire_days",
+        "expire_at",
+    ];
+
+    protected $casts = [
+        "expire_at" => "datetime"
     ];
 
     public function customer(): BelongsTo {

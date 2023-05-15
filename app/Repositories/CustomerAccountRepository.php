@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Models\CustomerAccount;
+use Carbon\Carbon;
 
 class CustomerAccountRepository {
     private $accounts;
@@ -17,6 +18,11 @@ class CustomerAccountRepository {
         $this->accounts = [];
 
         foreach ($request->metadata["order_dynamic_fields"] as $account) {
+
+            // Generate expires at value
+            $expires_at = Carbon::parse($account["field_date"]);
+            $expires_at->addDays(intval($account["field_expire_days"]));
+
             $this->accounts[] = $customer->accounts()->updateOrCreate(
                 [
                     "title" => $account["field_title"]
@@ -29,6 +35,7 @@ class CustomerAccountRepository {
                     "password" => $account["field_password"],
                     "username" => $account["field_username"],
                     "expire_days" => $account["field_expire_days"],
+                    "expire_at" => $expires_at,
                 ]
             );
         }
