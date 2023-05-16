@@ -20,29 +20,36 @@ class AccountRepository {
         $this->deleteOrderAccounts($order);
 
         foreach ($request->metadata["order_dynamic_fields"] as $account) {
-
-            // Generate expires at value
-            $expires_at = Carbon::parse($account["field_date"]);
-            $expires_at->addDays(intval($account["field_expire_days"]));
-
-            $this->accounts[] = $order->accounts()->updateOrCreate(
-                [
-                    "title" => $account["field_title"]
-                ],
-                [
-                    "title"       => $account["field_title"],
-                    "code"        => $account["field_code"],
-                    "date"        => $account["field_date"],
-                    "email"       => $account["field_email"],
-                    "password"    => $account["field_password"],
-                    "username"    => $account["field_username"],
-                    "expire_days" => $account["field_expire_days"],
-                    "expire_at"   => $expires_at,
-                ]
-            );
+            $this->createOrUpdate($order, $account);
         }
 
         return $this->accounts;
+    }
+
+    public function createOrUpdate(Order $order, array $account) {
+        // Generate expires at value
+        $expires_at = Carbon::parse($account["field_date"]);
+        $expires_at->addDays(intval($account["field_expire_days"]));
+
+        $account = $order->accounts()->updateOrCreate(
+            [
+                "title" => $account["field_title"]
+            ],
+            [
+                "title"       => $account["field_title"],
+                "code"        => $account["field_code"],
+                "date"        => $account["field_date"],
+                "email"       => $account["field_email"],
+                "password"    => $account["field_password"],
+                "username"    => $account["field_username"],
+                "expire_days" => $account["field_expire_days"],
+                "expire_at"   => $expires_at,
+            ]
+        );
+
+        $this->accounts[] = $account;
+
+        return $account;
     }
 
     public function update(Account $Account, array $data): Account {
