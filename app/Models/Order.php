@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Models\Note;
 use App\Models\Account;
+use App\Models\Customer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order extends Model {
 
@@ -22,6 +24,10 @@ class Order extends Model {
         "status",
         "support_note",
     ];
+
+    public function customer(): BelongsTo {
+        return $this->belongsTo(Customer::class);
+    }
 
     public function accounts(): HasMany {
         return $this->hasMany(Account::class);
