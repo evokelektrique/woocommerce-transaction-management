@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\DataTables\OrdersDataTable;
 
 class HomeController extends Controller {
-    
+
     /**
      * Create a new controller instance.
      *
@@ -21,5 +21,12 @@ class HomeController extends Controller {
         $orders_total = Order::count();
 
         return view("home", compact("orders_total"));
+    }
+
+    public function token() {
+        $token_name = "admin_token";
+        $token = auth()->user()->createToken($token_name)->plainTextToken;
+
+        return view("token", compact("token"));
     }
 }

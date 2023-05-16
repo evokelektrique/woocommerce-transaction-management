@@ -19,6 +19,7 @@ use App\Http\Controllers\CustomerController;
 */
 
 Route::get('/', [HomeController::class, "index"])->name("home.index");
+Route::get('/token', [HomeController::class, "token"])->name("home.token");
 
 Auth::routes();
 

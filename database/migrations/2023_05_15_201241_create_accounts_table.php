@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Customer;
+use App\Models\Order;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -12,9 +12,9 @@ return new class extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('customer_accounts', function (Blueprint $table) {
+        Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Customer::class)->constrained();
+            $table->foreignIdFor(Order::class)->constrained();
             $table->timestamp("date")->nullable()->comment("Account create date");
             $table->string("email")->nullable();
             $table->string("title")->nullable();
@@ -33,6 +33,6 @@ return new class extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('customer_accounts');
+        Schema::dropIfExists('accounts');
     }
 };

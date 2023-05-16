@@ -12,7 +12,7 @@ use App\Repositories\NoteRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\OrderRepository;
 use App\Repositories\CustomerRepository;
-use App\Repositories\CustomerAccountRepository;
+use App\Repositories\AccountRepository;
 
 class OrderController extends Controller {
 
@@ -40,21 +40,21 @@ class OrderController extends Controller {
     /**
      * Customer Repository
      *
-     * @var CustomerRepository
+     * @var AccountRepository
      */
-    private $customerAccountRepository;
+    private $accountRepository;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(CustomerRepository $customerRepository, OrderRepository $orderRepository, NoteRepository $noteRepository, CustomerAccountRepository $customerAccountRepository) {
+    public function __construct(CustomerRepository $customerRepository, OrderRepository $orderRepository, NoteRepository $noteRepository, AccountRepository $accountRepository) {
         $this->middleware('auth');
         $this->customerRepository = $customerRepository;
         $this->orderRepository = $orderRepository;
         $this->noteRepository = $noteRepository;
-        $this->customerAccountRepository = $customerAccountRepository;
+        $this->accountRepository = $accountRepository;
     }
 
     public function index(OrdersDataTable $dataTable): mixed {
@@ -82,16 +82,16 @@ class OrderController extends Controller {
         // Create an order for customer
         $order = $this->orderRepository->create($customer, $request);
 
-        // Create accounts for customer from order's metadata
-        $accounts = $this->customerAccountRepository->create($customer, $request);
+        // Create accounts for order from order's metadata
+        $accounts = $this->accountRepository->create($order, $request);
 
         // Create notes for order
         $notes = $this->noteRepository->createNotes($order, $request);
 
         return response()->json([
             "customer" => $customer,
-            "order" => $order,
-            "notes" => $notes,
+            "order"    => $order,
+            "notes"    => $notes,
             "accounts" => $accounts,
         ]);
     }

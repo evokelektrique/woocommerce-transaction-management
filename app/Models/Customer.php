@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Models\Order;
-use App\Models\CustomerAccount;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Customer extends Model {
     protected $fillable = [
@@ -16,11 +16,7 @@ class Customer extends Model {
         "phone",
     ];
 
-    public function orders() {
+    public function orders(): HasMany {
         return $this->hasMany(Order::class);
-    }
-
-    public function accounts(): HasMany {
-        return $this->hasMany(CustomerAccount::class);
     }
 }
