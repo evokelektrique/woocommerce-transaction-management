@@ -13,8 +13,12 @@ composer install && npm install
 ```
 php artisan db:seed
 ```
-
-## Generate order accounts
+## Commands 
+List of usable commands or scheduled jobs
 ```
+# Generate order accounts
 php artisan order:account
+
+# Change the order's status through WooCommerce's REST API
+php artisan account:proccess-expired
 ```
