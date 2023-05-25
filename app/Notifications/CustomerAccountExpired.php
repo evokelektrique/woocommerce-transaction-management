@@ -28,9 +28,13 @@ class CustomerAccountExpired extends KavenegarBaseNotification {
 
     public function toKavenegar($notifiable) {
         // dd([$notifiable->toArray(), "test"]);
+        // $token1 = $notifiable->first_name . " " . $notifiable->last_name;
+        $token1 = $notifiable->username;
+        // $token2 = $this->account->order->wc_order_id . " - " .  $this->account->title;
+        $token2 = $this->account->order->wc_order_id;
 
         return (new KavenegarMessage())
-            ->verifyLookup(env("KAVENEGAR_TEMPLATE_CUSTOMER_ACCOUNT_EXPIRED"), ['token1', 'token2']);
+            ->verifyLookup(env("KAVENEGAR_TEMPLATE_CUSTOMER_ACCOUNT_EXPIRED"), [$token1, $token2]);
     }
 
     public function toDatabase($notifiable) {

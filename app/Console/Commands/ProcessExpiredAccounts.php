@@ -53,11 +53,10 @@ class ProcessExpiredAccounts extends Command {
             $wc_order_id = $expired_account->order->wc_order_id;
 
             // Update order's status in WooCommerce
-            // $this->woocommerce->put("orders/$wc_order_id", ["status" => self::WC_ORDER_STATUS]);
-            // dd($this->woocommerce->get("orders/432"));
+            $this->woocommerce->put("orders/$wc_order_id", ["status" => self::WC_ORDER_STATUS]);
 
             // dd($customer->notifications);
-            // $customer->notify(new CustomerAccountExpired($expired_account));
+            $customer->notify(new CustomerAccountExpired($expired_account));
         }
     }
 }
