@@ -1,12 +1,13 @@
 <x-mail::message>
-# Introduction
+# سلام {{ $token1 }}
 
-The body of your message.
+سفارش ( {{ $token2 }} ) منقضی شده و هم اکنون در انتظار تمدید اشتراک میباشد.
+
+جهت تمدید اشتراک از طریق سایت ، خرید جدیدی ثبت کنید:
+<a href="https://account4all.ir">Account4all.ir</a>
 
 <x-mail::button :url="$url">
-Button Text
+مشاهده سفارش
 </x-mail::button>
 
-Thanks,<br>
-{{ config('app.name') }}
 </x-mail::message>

@@ -15,11 +15,6 @@ class ProcessExpiredAccounts extends Command {
      */
     private $woocommerce;
 
-    /**
-     * Status for expired accounts to be changed in orders
-     */
-    const WC_ORDER_STATUS = "processing";
-
     public function __construct(WooCommerce $woocommerce) {
         parent::__construct();
 
@@ -46,19 +41,16 @@ class ProcessExpiredAccounts extends Command {
      * @return int
      */
     public function handle(): void {
-        $expired_accounts = Account::whereDate('expire_at', "<=", now())->get();
+        $expired_accounts = Account::whereDate('expire_at', "<=", now())->where(["notification_sent" => false])->get();
 
         foreach ($expired_accounts as $expired_account) {
             $customer = $expired_account->order->customer;
-            $wc_order_id = $expired_account->order->wc_order_id;
 
-            // Update order's status in WooCommerce
-            // $this->woocommerce->put("orders/$wc_order_id", ["status" => self::WC_ORDER_STATUS]);
+            // Send account expiration notification to user
+            $customer->notify((new CustomerAccountExpired($expired_account))->locale('fa'));
 
-            // dd($customer->notifications);
-            $customer->notify((new CustomerAccountExpired($expired_account))->locale('es'));
-
-            exit;
+            // Update account's notification sent status to prevent duplication on sending notification
+            $expired_account->update(["notification_sent" => true]);
         }
     }
 }
