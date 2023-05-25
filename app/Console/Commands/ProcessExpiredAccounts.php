@@ -5,8 +5,17 @@ namespace App\Console\Commands;
 use App\Models\Account;
 use App\Notifications\CustomerAccountExpired;
 use Illuminate\Console\Command;
+use Automattic\WooCommerce\Client as WooCommerce;
 
 class ProcessExpiredAccounts extends Command {
+    private $woocommerce;
+
+    public function __construct(WooCommerce $woocommerce) {
+        parent::__construct();
+
+        $this->woocommerce = $woocommerce;
+    }
+
     /**
      * The name and signature of the console command.
      *
@@ -31,6 +40,7 @@ class ProcessExpiredAccounts extends Command {
 
         foreach ($expired_accounts as $expired_account) {
             $customer = $expired_accounts->first()->order->customer;
+            dd($this->woocommerce->get("customers"));
             // dd($customer->notifications);
             // $customer->notify(new CustomerAccountExpired($expired_account));
         }

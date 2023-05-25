@@ -1,5 +1,6 @@
 <?php
 
+use App\Providers\WooCommerceServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -182,6 +183,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Kavenegar\Laravel\ServiceProvider::class,
+        App\Providers\WooCommerceServiceProvider::class,
 
         /*
          * Package Service Providers...
