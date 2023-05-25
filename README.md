@@ -21,4 +21,7 @@ php artisan order:account
 
 # Change the order's status through WooCommerce's REST API
 php artisan account:proccess-expired
+
+# Generate orders notes
+php artisan order:notes
 ```

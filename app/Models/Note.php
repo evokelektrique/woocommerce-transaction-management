@@ -24,4 +24,8 @@ class Note extends Model {
     public function is_added_by_user(): bool {
         return $this->customer_note;
     }
+
+    public function is_added_by_system(): bool {
+        return $this->author === "system";
+    }
 }

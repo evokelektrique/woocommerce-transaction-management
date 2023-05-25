@@ -6,6 +6,7 @@ use App\Http\Requests\NoteRequest;
 use App\Models\Note;
 use App\Models\Order;
 use Automattic\WooCommerce\Client as WooCommerce;
+use Exception;
 
 class NoteRepository {
     private $notes;
@@ -35,7 +36,20 @@ class NoteRepository {
         return $this->notes;
     }
 
+    /**
+     * Adds the note to WooCommerce website and also saves into database
+     *
+     * @param Order $order
+     * @param NoteRequest $request
+     * @return Note
+     */
     public function create(Order $order, NoteRequest $request): Note {
+        // Add note to woocommerce website
+        try {
+            $this->woocommerce->post("orders/" . $order->wc_order_id . "/notes", ["note" => $request->content]);
+        } catch(\Exception $e) {
+        }
+
         return $order->notes()->firstOrCreate([
             "content"       => $request->content,
             "customer_note" => false, // Default is false because it's written by admins

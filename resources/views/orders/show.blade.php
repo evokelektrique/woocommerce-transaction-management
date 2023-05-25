@@ -31,7 +31,14 @@
                                 </h3>
                                 @forelse ($order->notes as $note)
                                     <div
-                                        class="card position-relative border-{{ $note->is_added_by_user() ? 'primary shadow-sm' : 'secondary' }} mb-4">
+                                        class="card position-relative border-{{ $note->is_added_by_user() || $note->is_added_by_system() ? 'primary shadow-sm' : 'secondary' }} mb-4">
+
+                                        @if ($note->is_added_by_system())
+                                            <span
+                                                class="position-absolute top-0 start-0 translate-middle-y badge rounded bg-primary">
+                                                Added by system
+                                            </span>
+                                        @endif
 
                                         @if ($note->is_added_by_user())
                                             <span
@@ -41,7 +48,7 @@
                                         @endif
 
                                         <div
-                                            class="card-header bg-transparent border-{{ $note->is_added_by_user() ? 'primary' : 'secondary' }} d-flex align-items-center justify-content-between">
+                                            class="card-header bg-transparent border-{{ $note->is_added_by_user() || $note->is_added_by_system() ? 'primary' : 'secondary' }} d-flex align-items-center justify-content-between">
                                             <b>#{{ $note->id }}</b>
                                             <form class="d-inline-block" action="{{ route('note.destroy', $note) }}"
                                                 method="POST">
@@ -57,7 +64,7 @@
                                                 {{ $note->content }}
                                             </p>
                                         </div>
-                                        <div class="card-footer bg-transparent border-{{ $note->is_added_by_user() ? 'primary' : 'secondary' }} text-muted"
+                                        <div class="card-footer bg-transparent border-{{ $note->is_added_by_user() || $note->is_added_by_system() ? 'primary' : 'secondary' }} text-muted"
                                             title="{{ $note->created_at }}">
                                             {{ $note->created_at->diffForHumans() }}
                                         </div>
