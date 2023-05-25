@@ -38,7 +38,7 @@ class NoteController extends Controller {
 
     public function create(Request $request): JsonResponse {
         // Find order
-        $order = Order::where("order_id", $request->order["id"])->firstOrFail();
+        $order = Order::where("wc_order_id", $request->order["id"])->firstOrFail();
 
         // Create notes for order
         $notes = $this->noteRepository->createNotes($order, $request);

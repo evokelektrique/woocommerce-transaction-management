@@ -25,10 +25,15 @@ class Account extends Model {
     ];
 
     protected $casts = [
-        "expire_at" => "datetime"
+        "expire_at" => "datetime",
+        "date" => "datetime",
     ];
 
     public function order(): BelongsTo {
         return $this->belongsTo(Order::class);
+    }
+
+    public function is_expired() {
+        return !$this->expire_at->isFuture();
     }
 }

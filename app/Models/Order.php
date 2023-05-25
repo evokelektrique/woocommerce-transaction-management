@@ -17,7 +17,7 @@ class Order extends Model {
     ];
 
     protected $fillable = [
-        "order_id",
+        "wc_order_id",
         "variation",
         "price",
         "metadata",

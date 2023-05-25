@@ -10,7 +10,7 @@
                             <i class="d-flex bi bi-arrow-left"></i>
                         </a>
                         <span class="fw-bold">
-                            Notes order(#{{ $order->order_id }})
+                            Notes order(#{{ $order->wc_order_id }})
                         </span>
                     </div>
 
@@ -74,7 +74,7 @@
                                     Support Notes
                                 </h3>
                                 <form class='support_note_form h-100 d-flex flex-column' data-id="{{ $order->id }}">
-                                    <textarea class="form-control mb-2 h-100 fs-5" placeholder="Support note ..." id="support_note_{{ $order->id }}">{{ $order->support_note }}</textarea>
+                                    <textarea class="form-control mb-2 flex-fill fs-5" placeholder="Support note ..." id="support_note_{{ $order->id }}">{{ $order->support_note }}</textarea>
                                     <div id="support_note_status"
                                         class="text-success align-items-center justify-content-start d-flex gap-2"></div>
                                 </form>
@@ -89,23 +89,64 @@
                                     Empty
                                 </div>
                             @endempty
-                            @foreach ($order->metadata['order_dynamic_fields'] as $dynamic_fields)
-                                <div class="col-12 g-3">
-                                    <div class="border p-3 rounded shadow-sm">
-                                        <div class="row row-cols-auto gy-3 gx-lg-3">
-                                            @foreach ($dynamic_fields as $key => $value)
-                                                @empty($value)
-                                                    @continue
-                                                @endempty
+                            <div class="row g-3">
+                                @foreach ($order->accounts as $account)
+                                    <div class="col-12">
+                                        <div class="border p-3 rounded shadow-sm">
+                                            <div class="row row-cols-auto gy-3 gx-lg-3 justify-content-between">
+
+                                                {{-- Title --}}
                                                 <div class="d-flex flex-column h-100">
-                                                    <span class="user-select-none fs-6">{{ $key }}</span><span
-                                                        class="h-100 text-dark fs-5 rounded">{{ $value }}</span>
+                                                    <span class="user-select-none fs-6">Title</span><span
+                                                        class="h-100 text-dark fs-5">{{ $account->title }}</span>
                                                 </div>
-                                            @endforeach
+
+                                                {{-- Email --}}
+                                                <div class="d-flex flex-column h-100">
+                                                    <span class="user-select-none fs-6">Email</span><span
+                                                        class="h-100 text-dark fs-5">{{ $account->email }}</span>
+                                                </div>
+
+                                                {{-- Username --}}
+                                                <div class="d-flex flex-column h-100">
+                                                    <span class="user-select-none fs-6">Username</span><span
+                                                        class="h-100 text-dark fs-5">{{ $account->username }}</span>
+                                                </div>
+
+                                                {{-- Password --}}
+                                                <div class="d-flex flex-column h-100">
+                                                    <span class="user-select-none fs-6">Password</span><span
+                                                        class="h-100 text-dark fs-5">{{ $account->password }}</span>
+                                                </div>
+
+                                                {{-- Code --}}
+                                                <div class="d-flex flex-column h-100">
+                                                    <span class="user-select-none fs-6">Code</span><span
+                                                        class="h-100 text-dark fs-5">{{ $account->code }}</span>
+                                                </div>
+
+                                                {{-- Date --}}
+                                                <div class="d-flex flex-column h-100">
+                                                    <span class="user-select-none fs-6">Date</span><span
+                                                        class="h-100 text-dark fs-5">{{ $account->date->diffForHumans() }}</span>
+                                                </div>
+
+                                                {{-- Expire_days --}}
+                                                <div class="d-flex flex-column h-100">
+                                                    <span class="user-select-none fs-6">Expire days</span><span
+                                                        class="h-100 text-dark fs-5">{{ $account->expire_days }}</span>
+                                                </div>
+
+                                                {{-- Is_expired --}}
+                                                <div class="d-flex flex-column h-100">
+                                                    <span class="user-select-none fs-6">Expire Status</span><span
+                                                        class="h-100 fs-5 {{ $account->is_expired() ? "text-danger" : "text-success" }}">{{ $account->is_expired() ? "Expired" : "Not Expired" }}</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -24,7 +24,7 @@ class OrdersDataTable extends DataTable {
             ->addColumn('notes', 'orders.support_note')
             ->editColumn('updated_at', 'orders.updated_at')
             ->rawColumns(['action', 'variation', 'notes', 'updated_at'])
-            ->setRowId('order_id');
+            ->setRowId('wc_order_id');
     }
 
     /**
@@ -73,7 +73,7 @@ class OrdersDataTable extends DataTable {
      */
     public function getColumns(): array {
         return [
-            Column::make('order_id'),
+            Column::make('wc_order_id')->title("WooCoomerce Order ID"),
             Column::make("variation"),
             Column::make("price"),
             Column::make("status"),

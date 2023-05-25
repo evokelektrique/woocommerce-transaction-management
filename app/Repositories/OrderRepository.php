@@ -12,7 +12,7 @@ class OrderRepository {
 
     public function create(Customer $customer, Request $request): Order {
         return $customer->orders()->updateOrCreate(
-            ["order_id" => $request->order['id']],
+            ["wc_order_id" => $request->order['id']],
             [
                 "status" => $request->order['status'],
                 "price" => $request->order['price'],

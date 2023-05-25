@@ -39,8 +39,11 @@ class ProcessExpiredAccounts extends Command {
         $expired_accounts = Account::whereDate('expire_at', "<=", now())->get();
 
         foreach ($expired_accounts as $expired_account) {
-            $customer = $expired_accounts->first()->order->customer;
-            dd($this->woocommerce->get("customers"));
+            $customer = $expired_account->order->customer;
+            $order = $expired_account->order;
+
+            dd($order);
+            // dd($this->woocommerce->get("customers"));
             // dd($customer->notifications);
             // $customer->notify(new CustomerAccountExpired($expired_account));
         }
