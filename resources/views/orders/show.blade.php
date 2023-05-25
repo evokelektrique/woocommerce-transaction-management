@@ -81,17 +81,43 @@
                                 </form>
                             </div>
 
-                            {{-- Support Notes --}}
+                            {{-- Support Notes and Notifications --}}
                             <div class="col-12 col-md-2 d-flex flex-column">
                                 <h3 class="fw-bold mb-3">
                                     Support Notes
                                 </h3>
-                                <form class='support_note_form h-100 d-flex flex-column' data-id="{{ $order->id }}">
-                                    <textarea class="form-control mb-2 flex-fill fs-5" placeholder="Support note ..."
+                                <form class='support_note_form d-flex flex-column mb-3' data-id="{{ $order->id }}">
+                                    <textarea class="form-control mb-2 fs-5" rows="6" placeholder="Support note ..."
                                         id="support_note_{{ $order->id }}">{{ $order->support_note }}</textarea>
                                     <div id="support_note_status"
                                         class="text-success align-items-center justify-content-start d-flex gap-2"></div>
                                 </form>
+
+
+                                {{-- Notifications --}}
+                                <div>
+                                    <h3 class="fw-bold mb-3">
+                                        Notifications
+                                    </h3>
+
+                                    @foreach ($order->customer->notifications as $notification)
+                                        @if ($notification->type !== 'App\Notifications\CustomerAccountExpired')
+                                            @continue
+                                        @endif
+                                        @dump($notification->toArray())
+                                        <div class="border p-3 rounded shadow-sm">
+                                            <div class="row row-cols-auto gy-3 gx-lg-3 justify-content-between">
+
+                                                {{-- Title --}}
+                                                <div class="d-flex flex-column">
+                                                    <span class="user-select-none fs-6">Created at</span><span
+                                                        class="text-dark fs-6"
+                                                        title="{{ $notification->created_at }}">{{ $notification->created_at->diffForHumans() }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
 
                             <div class="col-12 col-md-6 d-flex flex-column">
@@ -142,7 +168,8 @@
                                                 {{-- Date --}}
                                                 <div class="d-flex flex-column h-100">
                                                     <span class="user-select-none fs-6">Date</span><span
-                                                        class="text-dark fs-5">{{ $account->date->diffForHumans() }}</span>
+                                                        class="text-dark fs-5"
+                                                        title="{{ $account->date }}">{{ $account->date->diffForHumans() }}</span>
                                                 </div>
 
                                                 {{-- Expire_days --}}
@@ -159,7 +186,8 @@
                                                         class="fs-5 d-flex align-items-center justify-content-center gap-2 {{ $account->is_expired() ? 'text-danger' : 'text-success' }}">
                                                         <i
                                                             class="bi bi-{{ $account->is_expired() ? 'exclamation-square' : 'check-square' }}"></i>
-                                                        <span class="d-flex">{{ $account->is_expired() ? 'Expired' : 'Not Expired' }}</span>
+                                                        <span
+                                                            class="d-flex">{{ $account->is_expired() ? 'Expired' : 'Not Expired' }}</span>
                                                     </div>
                                                 </div>
                                             </div>
