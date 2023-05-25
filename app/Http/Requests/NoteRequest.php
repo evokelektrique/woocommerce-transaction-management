@@ -24,9 +24,7 @@ class NoteRequest extends FormRequest
     public function rules()
     {
         return [
-            "order_id" => "required",
             "content" => "required",
-            "type" => "required",
         ];
     }
 }

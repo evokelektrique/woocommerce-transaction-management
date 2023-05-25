@@ -19,9 +19,9 @@ class NoteController extends Controller {
         $this->noteRepository = $noteRepository;
     }
 
-    public function store(NoteRequest $request): RedirectResponse {
+    public function store(Order $order, NoteRequest $request): RedirectResponse {
         // Create note
-        $this->noteRepository->create($request);
+        $this->noteRepository->create($order, $request);
 
         return redirect()->back()->with("success", "Note created successfully");
     }
@@ -36,12 +36,12 @@ class NoteController extends Controller {
         return view("notes.show", compact("order"));
     }
 
-    public function create(Request $request): JsonResponse {
+    public function sync(Request $request): JsonResponse {
         // Find order
         $order = Order::where("wc_order_id", $request->order["id"])->firstOrFail();
 
         // Create notes for order
-        $notes = $this->noteRepository->createNotes($order, $request);
+        $notes = $this->noteRepository->createNotes($order);
 
         return response()->json([
             "notes" => $notes,

@@ -5,23 +5,28 @@ namespace App\Repositories;
 use App\Http\Requests\NoteRequest;
 use App\Models\Note;
 use App\Models\Order;
-use Illuminate\Http\Request;
+use Automattic\WooCommerce\Client as WooCommerce;
 
 class NoteRepository {
     private $notes;
+    private $woocommerce;
 
-    public function __construct() {
+    public function __construct(WooCommerce $woocommerce) {
         $this->notes = [];
+        $this->woocommerce = $woocommerce;
     }
 
-    public function createNotes(Order $order, Request $request): array {
+    public function createNotes(Order $order): array {
         // Delete all notes before creating any
         $this->deleteAll($order);
+        $notes_from_woocommerce = $this->fetchNotesFromWooCommerce($order);
 
-        foreach ($request->notes as $note) {
+        foreach ($notes_from_woocommerce as $note) {
             $note = [
-                "content" => $note["content"] ?? "",
-                "type" => $note["type"],
+                "content"          => $note->note ?? "",
+                "author"           => $note->author,
+                "date_created_gmt" => $note->date_created_gmt,
+                "customer_note"    => $note->customer_note,
             ];
 
             $this->notes[] = $order->notes()->updateOrCreate($note, $note);
@@ -30,15 +35,18 @@ class NoteRepository {
         return $this->notes;
     }
 
-    public function create(NoteRequest $request): Note {
-        return Note::firstOrCreate([
-            "order_id" => $request->order_id,
-            "content" => $request->content,
-            "type" => $request->type
+    public function create(Order $order, NoteRequest $request): Note {
+        return $order->notes()->firstOrCreate([
+            "content"       => $request->content,
+            "customer_note" => false, // Default is false because it's written by admins
         ]);
     }
 
     public function deleteAll(Order $order): bool {
         return $order->notes()->delete();
+    }
+
+    public function fetchNotesFromWooCommerce(Order $order): mixed {
+        return $this->woocommerce->get("orders/" . $order->wc_order_id . "/notes");
     }
 }

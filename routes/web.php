@@ -35,7 +35,7 @@ Route::prefix('orders')->group(function () {
 
 Route::prefix('notes')->group(function () {
     Route::get('/{order}', [NoteController::class, "show"])->name("note.show");
-    Route::post('/store', [NoteController::class, "store"])->name("note.store");
+    Route::post('/store/{order}', [NoteController::class, "store"])->name("note.store");
     Route::delete('/destroy/{note}', [NoteController::class, "destroy"])->name("note.destroy");
 });
 

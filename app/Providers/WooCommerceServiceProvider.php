@@ -17,6 +17,9 @@ class WooCommerceServiceProvider extends ServiceProvider {
                 env("WOOCOMMERCE_BASE_URL"),
                 env("WOOCOMMERCE_API_KEY_CK"),
                 env("WOOCOMMERCE_API_KEY_CS"),
+                [
+                    'version' => 'wc/v3',
+                ]
             );
         });
     }

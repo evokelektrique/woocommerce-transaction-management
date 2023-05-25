@@ -8,7 +8,17 @@ use Illuminate\Console\Command;
 use Automattic\WooCommerce\Client as WooCommerce;
 
 class ProcessExpiredAccounts extends Command {
+    /**
+     * WooCommerce client SDK
+     *
+     * @var WooCommerce
+     */
     private $woocommerce;
+
+    /**
+     * Status for expired accounts to be changed in orders
+     */
+    const WC_ORDER_STATUS = "processing";
 
     public function __construct(WooCommerce $woocommerce) {
         parent::__construct();
@@ -40,10 +50,12 @@ class ProcessExpiredAccounts extends Command {
 
         foreach ($expired_accounts as $expired_account) {
             $customer = $expired_account->order->customer;
-            $order = $expired_account->order;
+            $wc_order_id = $expired_account->order->wc_order_id;
 
-            dd($order);
-            // dd($this->woocommerce->get("customers"));
+            // Update order's status in WooCommerce
+            // $this->woocommerce->put("orders/$wc_order_id", ["status" => self::WC_ORDER_STATUS]);
+            // dd($this->woocommerce->get("orders/432"));
+
             // dd($customer->notifications);
             // $customer->notify(new CustomerAccountExpired($expired_account));
         }

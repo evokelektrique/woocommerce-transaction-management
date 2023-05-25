@@ -21,5 +21,6 @@ Route::prefix('order')->middleware(["auth:sanctum"])->group(function () {
 });
 
 Route::prefix('note')->middleware(["auth:sanctum"])->group(function () {
-    Route::post('/create', [NoteController::class, "create"]);
+    // Route::post('/create', [NoteController::class, "create"]);
+    Route::post('/sync', [NoteController::class, "sync"]);
 });
