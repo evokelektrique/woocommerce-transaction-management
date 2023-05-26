@@ -41,16 +41,17 @@ class ProcessExpiredAccounts extends Command {
      * @return int
      */
     public function handle(): void {
+        // Only fetch accounts that are expired and their notification is not sent yet
         $expired_accounts = Account::whereDate('expire_at', "<=", now())->where(["notification_sent" => false])->get();
 
-        foreach ($expired_accounts as $expired_account) {
-            $customer = $expired_account->order->customer;
+        foreach ($expired_accounts as $account) {
+            $customer = $account->order->customer;
 
             // Send account expiration notification to user
-            $customer->notify((new CustomerAccountExpired($expired_account))->locale('fa'));
+            $customer->notify((new CustomerAccountExpired($account))->locale('fa'));
 
             // Update account's notification sent status to prevent duplication on sending notification
-            $expired_account->update(["notification_sent" => true]);
+            $account->update(["notification_sent" => true]);
         }
     }
 }
