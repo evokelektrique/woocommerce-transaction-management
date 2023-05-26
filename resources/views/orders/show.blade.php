@@ -99,24 +99,30 @@
                                     <h3 class="fw-bold mb-3">
                                         Notifications
                                     </h3>
+                                    <div class="row g-3 justify-content-between">
 
-                                    @foreach ($order->customer->notifications as $notification)
-                                        @if ($notification->type !== 'App\Notifications\CustomerAccountExpired')
-                                            @continue
-                                        @endif
-                                        @dump($notification->toArray())
-                                        <div class="border p-3 rounded shadow-sm">
-                                            <div class="row row-cols-auto gy-3 gx-lg-3 justify-content-between">
+                                        @foreach ($order->customer->notifications as $notification)
+                                            {{-- Skip notifications that are not 'CustomerAccountExpired' type --}}
+                                            @if ($notification->type !== 'App\Notifications\CustomerAccountExpired')
+                                                @continue
+                                            @endif
 
-                                                {{-- Title --}}
-                                                <div class="d-flex flex-column">
-                                                    <span class="user-select-none fs-6">Created at</span><span
-                                                        class="text-dark fs-6"
-                                                        title="{{ $notification->created_at }}">{{ $notification->created_at->diffForHumans() }}</span>
+                                            <div class="col-12 border p-3 rounded">
+                                                {{-- Created at --}}
+                                                <div class="text-end" dir="rtl">
+
+                                                    <span class="text-dark fs-6 mb-2 d-block" title="{{ $notification->created_at }}">
+
+                                                        {{ $order->customer->getPattern($notification->data['tokens']) }}
+                                                    </span>
+
+                                                    <span class="text-dark fs-6 text-muted" title="{{ $notification->created_at }}">
+                                                        {{ $notification->created_at->diffForHumans() }}
+                                                    </span>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endforeach
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
 

@@ -33,8 +33,7 @@ class CustomerAccountExpired extends KavenegarBaseNotification {
     }
 
     public function via($notifiable) {
-        // return ['kavenegar', 'database', 'mail'];
-        return ['database', 'mail'];
+        return ['kavenegar', 'database', 'mail'];
     }
 
     public function toKavenegar($notifiable) {
@@ -65,7 +64,7 @@ class CustomerAccountExpired extends KavenegarBaseNotification {
             ]);
     }
 
-    public function toDatabase($notifiable) {
+    public function toDatabase(object $notifiable) {
         return [
             "customer_id" => $notifiable->id,
             "account_id" => $this->account->id,

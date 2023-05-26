@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use App\Models\Order;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Customer extends Model {
 
@@ -27,19 +28,14 @@ class Customer extends Model {
         return $this->hasMany(Order::class);
     }
 
-    public function getPattern(string $token1, string $token2, string $token3): mixed {
+    public function getPattern(array $tokens): mixed {
         $pattern = "سلام %token
-        سفارش ( %token2 ) منقضی شده و هم اکنون در انتظار تمدید اشتراک میباشد.
+        سفارش ( %token ) منقضی شده و هم اکنون در انتظار تمدید اشتراک میباشد.
 
         جهت تمدید اشتراک از طریق سایت ، خرید جدیدی ثبت کنید:
         Account4all.ir
         ";
 
-        return str_replace(
-            ["%token", $token1],
-            ["%token2", $token2],
-            ["%token3", $token3],
-            $pattern
-        );
+        return Str::replaceArray("%token", $tokens, $pattern);
     }
 }
