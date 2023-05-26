@@ -57,8 +57,11 @@ function support_note_event_listener() {
         setTimeout(() => {
             const language = "fa";
             const date = new Date(event.on).toLocaleString(language);
-            remove_loading(status_element, `${event.user.name} typed at (${date})`);
-        }, 1000)
+            remove_loading(
+                status_element,
+                `${event.user.name} typed at (${date})`
+            );
+        }, 1000);
         support_note_textarea.value = event.message;
         console.log(event);
     });
@@ -106,3 +109,30 @@ function remove_loading(element, text) {
     element.innerHTML = text;
     element.removeAttribute("disabled");
 }
+
+/**
+ * Item Highlighter
+ */
+
+const highlighters = document.querySelectorAll("[data-item-higlighter]");
+Array.from(highlighters).forEach((highlighter) => {
+    highlighter.addEventListener("mouseover", (e) => {
+        const target = document.getElementById(e.target.dataset.target);
+
+        highlighter.style.backgroundColor = "var(--bs-light)";
+
+        if (target) {
+            target.style.backgroundColor = "var(--bs-light)";
+        }
+    });
+
+    highlighter.addEventListener("mouseleave", (e) => {
+        const target = document.getElementById(e.target.dataset.target);
+
+        highlighter.style = null;
+
+        if (target) {
+            target.style = null;
+        }
+    });
+});

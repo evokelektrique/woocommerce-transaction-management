@@ -38,4 +38,10 @@ class Customer extends Model {
 
         return Str::replaceArray("%token", $tokens, $pattern);
     }
+
+    public function notification_account(Account $account) {
+        return $this->notifications()
+            ->where('data->account_id', $account->id)
+            ->latest()->first();
+    }
 }

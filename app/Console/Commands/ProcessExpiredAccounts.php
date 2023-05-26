@@ -52,6 +52,8 @@ class ProcessExpiredAccounts extends Command {
 
             // Update account's notification sent status to prevent duplication on sending notification
             $account->update(["notification_sent" => true]);
+
+            $this->info("Notification sent for account #{$account->id} of order #{$account->order->id}");
         }
     }
 }

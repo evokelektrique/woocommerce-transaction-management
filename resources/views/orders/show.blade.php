@@ -107,18 +107,27 @@
                                                 @continue
                                             @endif
 
-                                            <div class="col-12 border p-3 rounded">
-                                                {{-- Created at --}}
-                                                <div class="text-end" dir="rtl">
+                                            <div class="col-12">
+                                                <div class="border p-3 rounded"
+                                                    id="notification-account-{{ $notification->data['account_id'] }}"
+                                                    data-item-higlighter
+                                                    data-target="account-{{ $notification->data['account_id'] }}">
 
-                                                    <span class="text-dark fs-6 mb-2 d-block" title="{{ $notification->created_at }}">
+                                                    {{-- Created at --}}
+                                                    <div class="text-end" dir="rtl">
 
-                                                        {{ $order->customer->getPattern($notification->data['tokens']) }}
-                                                    </span>
+                                                        <span class="text-dark fs-6 mb-2 d-block"
+                                                            title="{{ $notification->created_at }}">
 
-                                                    <span class="text-dark fs-6 text-muted" title="{{ $notification->created_at }}">
-                                                        {{ $notification->created_at->diffForHumans() }}
-                                                    </span>
+                                                            {{ $order->customer->getPattern($notification->data['tokens']) }}
+                                                        </span>
+
+                                                        <span class="text-dark fs-6 text-muted"
+                                                            title="{{ $notification->created_at }}">
+                                                            {{ $notification->created_at->diffForHumans() }} -
+                                                            #{{ $notification->data['account_id'] }}
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         @endforeach
@@ -138,7 +147,9 @@
                             <div class="row g-3">
                                 @foreach ($order->accounts as $account)
                                     <div class="col-12">
-                                        <div class="border p-3 rounded shadow-sm">
+                                        <div class="border p-3 rounded shadow-sm" id="account-{{ $account->id }}"
+                                            data-item-higlighter
+                                            data-target="notification-account-{{ $account->id }}">
                                             <div class="row row-cols-auto gy-3 gx-lg-3 justify-content-between">
 
                                                 {{-- Title --}}
@@ -198,6 +209,13 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @if ($account->notification_sent)
+                                            <div class="mt-1 fs-6 text-muted text-end">آخرین زمان ارسال نوتیفیکشن در
+                                                {{ $account->order->customer->notification_account($account)->created_at->diffForHumans() }}
+                                                -
+                                                #{{ $account->order->customer->notification_account($account)->data['account_id'] }}
+                                            </div>
+                                        @endif
                                     </div>
                                 @endforeach
                             </div>
