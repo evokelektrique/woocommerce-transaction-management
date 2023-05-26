@@ -19,9 +19,9 @@ List of usable commands or scheduled jobs
 # Generate order accounts
 php artisan order:account
 
-# Change the order's status through WooCommerce's REST API
+# Will send a SMS / Email to orders contain expired accounts
 php artisan account:proccess-expired
 
-# Generate orders notes
+# Fetch orders notes through WooCommerce's REST API 
 php artisan order:notes
 ```
