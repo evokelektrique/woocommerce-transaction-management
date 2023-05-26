@@ -17,20 +17,31 @@ window.initalize_datatable = (table) => {
     // Custom filters
     const column_order_status = 3;
 
-    // Default option
-    const default_order_status = "processing";
-    table.api().column(column_order_status).search(default_order_status).draw();
+    const orders_table = document.getElementById("orders-table");
 
-    // Select on change search
-    document
-        .getElementById("filter-order-status")
-        .addEventListener("change", (e) => {
-            table
-                .api()
-                .column(column_order_status)
-                .search(e.target.value)
-                .draw();
-        });
+    if (orders_table) {
+        // Default option
+        const default_order_status = "processing";
+        table
+            .api()
+            .column(column_order_status)
+            .search(default_order_status)
+            .draw();
+
+        // Select on change search
+        const order_status_filter = document.getElementById(
+            "filter-order-status"
+        );
+        if (order_status_filter) {
+            order_status_filter.addEventListener("change", (e) => {
+                table
+                    .api()
+                    .column(column_order_status)
+                    .search(e.target.value)
+                    .draw();
+            });
+        }
+    }
 
     table
         .api()

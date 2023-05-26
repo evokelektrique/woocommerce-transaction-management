@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Account;
 use Illuminate\Http\Request;
 use App\DataTables\OrdersDataTable;
 
@@ -19,8 +20,9 @@ class HomeController extends Controller {
 
     public function index() {
         $orders_total = Order::count();
+        $accounts_total = Account::count();
 
-        return view("home", compact("orders_total"));
+        return view("home", compact("orders_total", "accounts_total"));
     }
 
     public function token() {

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\CustomerController;
 
 /*
@@ -39,6 +40,11 @@ Route::prefix('notes')->group(function () {
     Route::delete('/destroy/{note}', [NoteController::class, "destroy"])->name("note.destroy");
 });
 
-Route::prefix('customer')->group(function () {
+Route::prefix('customers')->group(function () {
     Route::get('/{customer}', [CustomerController::class, "show"])->name("customer.show");
+});
+
+Route::prefix('accounts')->group(function () {
+    Route::get('/', [AccountsController::class, 'index'])->name('account.index');
+    Route::get('/{account}', [AccountsController::class, 'show'])->name('account.show');
 });
