@@ -19,6 +19,7 @@ class NoteRepository {
 
     public function createNotes(Order $order): array {
         // Delete all notes before creating any
+        $this->notes = [];
         $this->deleteAll($order);
         $notes_from_woocommerce = $this->fetchNotesFromWooCommerce($order);
 
