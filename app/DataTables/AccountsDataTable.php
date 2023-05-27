@@ -26,6 +26,9 @@ class AccountsDataTable extends DataTable {
             ->editColumn('updated_at', 'accounts.updated_at')
             ->editColumn('expire_at', 'accounts.expire_at')
             ->editColumn('date', 'accounts.date')
+            ->editColumn('order.customer.username', function(Account $account) {
+                return $account->order->customer->first_name . ' ' .  $account->order->customer->last_name;
+            })
             ->rawColumns(['action', 'variation', 'updated_at', "expire_at", "date"])
             ->setRowId('id');
     }
@@ -82,13 +85,12 @@ class AccountsDataTable extends DataTable {
             Column::make("username"),
             Column::make("password"),
             Column::make("code"),
-            Column::make("date"),
-            Column::make("expire_at"),
             Column::make("variation")->title("Order Variation"),
             Column::make("order.wc_order_id")->title("WooCommerce Order ID"),
-            Column::make("order.customer.username")->title("Customer Username"),
             Column::make("order.customer.email")->title("Customer Email"),
             Column::make("order.customer.phone")->title("Customer Phone"),
+            Column::make("date")->title("Date created at WooCommerce"),
+            Column::make("expire_at"),
             Column::make("updated_at"),
             // Column::computed('action')->printable(false)->exportable(false)->searchPanes(false)
         ];
