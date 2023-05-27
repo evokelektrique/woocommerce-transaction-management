@@ -59,9 +59,9 @@
                                                 </button>
                                             </form>
                                         </div>
-                                        <div class="card-body text-dark">
+                                        <div class="card-body text-dark text-end" dir="rtl">
                                             <p class="card-text">
-                                                {{ $note->content }}
+                                                {!! $note->content !!}
                                             </p>
                                         </div>
                                         <div class="card-footer bg-transparent border-{{ $note->is_added_by_user() || $note->is_added_by_system() ? 'primary' : 'secondary' }} text-muted"
