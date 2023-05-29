@@ -16,6 +16,9 @@ php artisan db:seed
 ## Commands 
 List of usable commands or scheduled jobs
 ```
+# Generate orders from WooCommerce's REST API
+php artisan order:create
+
 # Generate order accounts
 php artisan order:account
 
