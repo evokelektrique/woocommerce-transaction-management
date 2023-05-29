@@ -22,7 +22,26 @@ class OrderRepository {
         );
     }
 
-    public function get_variations($items): string {
-        return json_encode($items);
+    /**
+     * Used for console command for retrieving products from WooCommerce
+     *
+     * @param Customer $customer
+     * @param array $data
+     * @return Order
+     */
+    public function createFromArray(Customer $customer, array $data): Order {
+        return $customer->orders()->updateOrCreate(
+            ["wc_order_id" => $data['id']],
+            [
+                "status" => $data['status'],
+                "price" => $data['price'],
+                "metadata" => $data["metadata"],
+                "variation" => $this->get_variations($data['items']),
+            ]
+        );
+    }
+
+    public function get_variations($items): mixed {
+        return $items;
     }
 }

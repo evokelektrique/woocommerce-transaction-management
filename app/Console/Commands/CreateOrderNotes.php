@@ -37,14 +37,12 @@ class CreateOrderNotes extends Command {
     public function handle(): void {
         $orders = Order::all();
 
-        foreach($orders as $order) {
+        foreach ($orders as $order) {
             // Delete and fetch all order notes before adding new ones, to prevent duplication.
             $notes = $this->noteRepository->createNotes($order);
             $notes_count = count($notes);
 
             $this->info("Order #{$order->id} - Added {$notes_count} notes");
         }
-
-
     }
 }
