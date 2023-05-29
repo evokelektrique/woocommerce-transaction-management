@@ -26,9 +26,6 @@ class AccountsDataTable extends DataTable {
             ->editColumn('updated_at', 'accounts.updated_at')
             ->editColumn('expire_at', 'accounts.expire_at')
             ->editColumn('date', 'accounts.date')
-            ->editColumn('order.customer.username', function(Account $account) {
-                return $account->order->customer->first_name . ' ' .  $account->order->customer->last_name;
-            })
             ->rawColumns(['action', 'variation', 'updated_at', "expire_at", "date"])
             ->setRowId('id');
     }
