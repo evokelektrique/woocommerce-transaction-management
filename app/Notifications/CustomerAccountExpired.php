@@ -26,8 +26,8 @@ class CustomerAccountExpired extends KavenegarBaseNotification {
 
         // Customer first name
         $this->tokens["token1"] = $this->account->order->customer->first_name;
-        // Account title
-        $this->tokens["token2"] = $this->account->title;
+        // Account title (White spaces are removed)
+        $this->tokens["token2"] = str_replace(" ", "", $this->account->title);
         // WooCommerce order ID
         $this->tokens["token3"] = $this->account->order->wc_order_id;
     }
