@@ -136,6 +136,7 @@ class CreateOrders extends Command {
                         $this->info("Order #{$order->id} - New account #{$account->id} created");
                     } catch (\Exception $e) {
                         $this->info("Order #{$order->id} - Caught an error, skipped");
+                        continue;
                     }
                 }
             }
