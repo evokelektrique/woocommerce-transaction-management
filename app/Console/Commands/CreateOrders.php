@@ -131,9 +131,12 @@ class CreateOrders extends Command {
                         continue;
                     }
 
-                    $account = $this->accountRepository->createOrUpdate($order, $account);
-
-                    $this->info("Order #{$order->id} - New account #{$account->id} created");
+                    try {
+                        $account = $this->accountRepository->createOrUpdate($order, $account);
+                        $this->info("Order #{$order->id} - New account #{$account->id} created");
+                    } catch (\Exception $e) {
+                        $this->info("Order #{$order->id} - Caught an error, skipped");
+                    }
                 }
             }
 
