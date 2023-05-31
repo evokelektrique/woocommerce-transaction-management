@@ -102,7 +102,7 @@ class CreateOrders extends Command {
 
             foreach ($wc_orders as $wc_order) {
                 // Skip if no customer found or the order is made by a guest
-                if(!isset($wc_order->customer_id) || $wc_order->customer_id === 0) {
+                if (!isset($wc_order->customer_id) || $wc_order->customer_id === 0) {
                     continue;
                 }
 
@@ -182,7 +182,9 @@ class CreateOrders extends Command {
      */
     private function get_total_items(): int {
         $this->woocommerce->get("orders", ["per_page" => 1]);
-        return $this->woocommerce->http->getResponse()->getHeaders()["X-WP-Total"];
+        $headers = $this->woocommerce->http->getResponse()->getHeaders();
+
+        return (int)($headers['X-WP-Total'] ?? $headers['x-wp-total']);
     }
 
     /**
