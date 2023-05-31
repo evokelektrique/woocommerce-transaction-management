@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
@@ -39,5 +40,10 @@ class AppServiceProvider extends ServiceProvider {
                     env('ADMIN_USER_EMAIL'),
                 ]);
         });
+
+        // Force HTTPS
+        if($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
     }
 }
