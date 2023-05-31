@@ -115,11 +115,13 @@ class CreateOrders extends Command {
                 $order = $this->orderRepository->createFromArray($customer, $order_data);
 
                 // Create accounts
-                if (!isset($order->metadata) || empty($order->metadata)) {
+                if (!isset($order->metadata) || empty($order->metadata["order_dynamic_fields"]) || empty($order->metadata)) {
+                    $this->info("Order #{$order->id} - Empty meta data");
                     continue;
                 }
                 foreach ($order->metadata["order_dynamic_fields"] as $account) {
-                    if(empty($account) || !isset($account["field_title"])) {
+                    if (empty($account) || !isset($account["field_title"])) {
+                        $this->info("Order #{$order->id} - Empty account");
                         continue;
                     }
 
