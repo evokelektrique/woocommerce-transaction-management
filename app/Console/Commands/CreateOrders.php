@@ -114,6 +114,12 @@ class CreateOrders extends Command {
                 $order_data = $this->convert_order($wc_order);
                 $order = $this->orderRepository->createFromArray($customer, $order_data);
 
+                // Create notes
+                // Delete and fetch all order notes before adding new ones, to prevent duplication.
+                $notes = $this->noteRepository->createNotes($order);
+                $notes_count = count($notes);
+                $this->info("Order #{$order->id} - Added {$notes_count} notes");
+
                 // Create accounts
                 if (!isset($order->metadata) || empty($order->metadata["order_dynamic_fields"]) || empty($order->metadata)) {
                     $this->info("Order #{$order->id} - Empty meta data");
@@ -129,13 +135,6 @@ class CreateOrders extends Command {
 
                     $this->info("Order #{$order->id} - New account #{$account->id} created");
                 }
-
-                // Create notes
-                // Delete and fetch all order notes before adding new ones, to prevent duplication.
-                $notes = $this->noteRepository->createNotes($order);
-                $notes_count = count($notes);
-
-                $this->info("Order #{$order->id} - Added {$notes_count} notes");
             }
 
             // Increase page
