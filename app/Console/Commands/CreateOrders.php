@@ -119,6 +119,10 @@ class CreateOrders extends Command {
                     continue;
                 }
                 foreach ($order->metadata["order_dynamic_fields"] as $account) {
+                    if(empty($account) || !isset($account["field_title"])) {
+                        continue;
+                    }
+
                     $account = $this->accountRepository->createOrUpdate($order, $account);
 
                     $this->info("Order #{$order->id} - New account #{$account->id} created");
