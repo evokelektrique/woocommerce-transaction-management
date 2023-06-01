@@ -106,36 +106,48 @@ class CreateOrders extends Command {
                     continue;
                 }
 
-                // Create customer
-                $customer_data = $this->get_customer_by_id($wc_order->customer_id);
-                $customer = $this->customerRepository->createFromArray($customer_data);
+                try {
+                    // Create customer
+                    $customer_data = $this->get_customer_by_id($wc_order->customer_id);
+                    $customer = $this->customerRepository->createFromArray($customer_data);
+                } catch (\Exception $e) {
+                    $this->error("Couldn't create customer for WC_Order {$wc_order->id}, skipped");
+                }
 
-                // Create order
-                $order_data = $this->convert_order($wc_order);
-                $order = $this->orderRepository->createFromArray($customer, $order_data);
+                try {
+                    // Create order
+                    $order_data = $this->convert_order($wc_order);
+                    $order = $this->orderRepository->createFromArray($customer, $order_data);
+                } catch (\Exception $e) {
+                    $this->error("Couldn't create order for WC_Order {$wc_order->id}, skipped");
+                }
 
-                // Create notes
-                // Delete and fetch all order notes before adding new ones, to prevent duplication.
-                $notes = $this->noteRepository->createNotes($order);
-                $notes_count = count($notes);
-                $this->info("Order #{$order->id} - Added {$notes_count} notes");
+                try {
+                    // Create notes
+                    // Delete and fetch all order notes before adding new ones, to prevent duplication.
+                    $notes = $this->noteRepository->createNotes($order);
+                    $notes_count = count($notes);
+                    $this->info("WC_Order #{$wc_order->id} - Added {$notes_count} notes");
+                } catch (\Exception $e) {
+                    $this->error("Couldn't create notes for WC_Order {$wc_order->id}, skipped");
+                }
 
                 // Create accounts
                 if (!isset($order->metadata) || empty($order->metadata["order_dynamic_fields"]) || empty($order->metadata)) {
-                    $this->info("Order #{$order->id} - Empty meta data");
+                    $this->error("WC_Order #{$wc_order->id} - Empty meta data, skipped");
                     continue;
                 }
                 foreach ($order->metadata["order_dynamic_fields"] as $account) {
                     if (empty($account) || !isset($account["field_title"])) {
-                        $this->info("Order #{$order->id} - Empty account");
+                        $this->error("WC_Order #{$wc_order->id} - Empty account, skipped");
                         continue;
                     }
 
                     try {
                         $account = $this->accountRepository->createOrUpdate($order, $account);
-                        $this->info("Order #{$order->id} - New account #{$account->id} created");
+                        $this->info("WC_Order #{$wc_order->id} - New account #{$account->id} created");
                     } catch (\Exception $e) {
-                        $this->info("Order #{$order->id} - Caught an error, skipped");
+                        $this->error("WC_Order #{$wc_order->id} - Caught an error, skipped");
                         continue;
                     }
                 }
