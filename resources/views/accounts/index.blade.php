@@ -20,8 +20,9 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-
-                        {{ $dataTable->table() }}
+                        <div class="table-responsive">
+                            {{ $dataTable->table() }}
+                        </div>
                     </div>
                 </div>
             </div>

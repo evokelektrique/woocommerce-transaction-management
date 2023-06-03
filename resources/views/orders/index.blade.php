@@ -36,7 +36,9 @@
                             </div>
                         </div>
 
-                        {{ $dataTable->table() }}
+                        <div class="table-responsive">
+                            {{ $dataTable->table() }}
+                        </div>
                     </div>
                 </div>
             </div>
