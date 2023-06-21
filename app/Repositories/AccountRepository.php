@@ -31,7 +31,7 @@ class AccountRepository {
         $expires_at = Carbon::parse($account["field_date"]);
         $expires_at->addDays(intval($account["field_expire_days"]));
 
-        $account = $order->accounts()->updateOrCreate(
+        $account = $order->accounts()->lockForUpdate()->updateOrCreate(
             [
                 "title" => $account["field_title"]
             ],

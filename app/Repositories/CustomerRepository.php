@@ -10,7 +10,7 @@ class CustomerRepository {
     }
 
     public function create(Request $request): Customer {
-        return Customer::updateOrCreate(
+        return Customer::lockForUpdate()->updateOrCreate(
             ["email" => $request->customer['email']],
             [
                 "first_name" => $request->customer['first_name'],
@@ -22,7 +22,7 @@ class CustomerRepository {
     }
 
     public function createFromArray(array $data): Customer {
-        return Customer::updateOrCreate(
+        return Customer::lockForUpdate()->updateOrCreate(
             ["email" => $data['email']],
             [
                 "first_name" => $data['first_name'],

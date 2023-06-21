@@ -11,7 +11,7 @@ class OrderRepository {
     }
 
     public function create(Customer $customer, Request $request): Order {
-        return $customer->orders()->updateOrCreate(
+        return $customer->orders()->lockForUpdate()->updateOrCreate(
             ["wc_order_id" => $request->order['id']],
             [
                 "status" => $request->order['status'],
@@ -30,7 +30,7 @@ class OrderRepository {
      * @return Order
      */
     public function createFromArray(Customer $customer, array $data): Order {
-        return $customer->orders()->updateOrCreate(
+        return $customer->orders()->lockForUpdate()->updateOrCreate(
             ["wc_order_id" => $data['id']],
             [
                 "status" => $data['status'],

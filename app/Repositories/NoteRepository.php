@@ -31,7 +31,7 @@ class NoteRepository {
                 "customer_note"    => $note->customer_note,
             ];
 
-            $this->notes[] = $order->notes()->updateOrCreate($note, $note);
+            $this->notes[] = $order->notes()->lockForUpdate()->updateOrCreate($note, $note);
         }
 
         return $this->notes;
