@@ -21,7 +21,7 @@ class NoteDataTable extends DataTable {
         return (new EloquentDataTable($query))
             ->addColumn('variation', 'accounts.variation')
             ->editColumn('updated_at', 'notes.updated_at')
-            ->rawColumns(['variation', 'updated_at'])
+            ->rawColumns(['content', 'variation', 'updated_at'])
             ->setRowId('id');
     }
 
