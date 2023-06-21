@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\NoteDataTable;
 use App\Models\Note;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -24,6 +25,10 @@ class NoteController extends Controller {
         $this->noteRepository->create($order, $request);
 
         return redirect()->back()->with("success", "Note created successfully");
+    }
+
+    public function index(NoteDataTable $dataTable): mixed {
+        return $dataTable->render('notes.index');
     }
 
     /**

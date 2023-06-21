@@ -2,17 +2,15 @@
 
 namespace App\DataTables;
 
-use App\Models\Account;
+use App\Models\Note;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class AccountsDataTable extends DataTable {
+class NoteDataTable extends DataTable {
     /**
      * Build DataTable class.
      *
@@ -22,20 +20,18 @@ class AccountsDataTable extends DataTable {
     public function dataTable(QueryBuilder $query): EloquentDataTable {
         return (new EloquentDataTable($query))
             ->addColumn('variation', 'accounts.variation')
-            ->editColumn('updated_at', 'accounts.updated_at')
-            ->editColumn('expire_at', 'accounts.expire_at')
-            ->editColumn('date', 'accounts.date')
-            ->rawColumns(['variation', 'updated_at', "expire_at", "date"])
+            ->editColumn('updated_at', 'notes.updated_at')
+            ->rawColumns(['variation', 'updated_at'])
             ->setRowId('id');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Account $model
+     * @param \App\Models\Note $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Account $model): QueryBuilder {
+    public function query(Note $model): QueryBuilder {
         return $model->newQuery()->with(["order", "order.customer"]);
     }
 
@@ -46,7 +42,7 @@ class AccountsDataTable extends DataTable {
      */
     public function html(): HtmlBuilder {
         return $this->builder()
-            ->setTableId('accounts-table')
+            ->setTableId('notes-table')
             ->pageLength(50)
             ->columns($this->getColumns())
             ->minifiedAjax()
@@ -78,17 +74,13 @@ class AccountsDataTable extends DataTable {
     public function getColumns(): array {
         return [
             Column::make("id"),
-            Column::make("title"),
-            Column::make("email"),
-            Column::make("username"),
-            Column::make("password"),
-            Column::make("code"),
-            Column::make("variation")->title("Order Variation"),
             Column::make("order.wc_order_id")->title("WooCommerce Order ID"),
+            Column::make("variation")->title("Order Variation"),
             Column::make("order.customer.email")->title("Customer Email"),
             Column::make("order.customer.phone")->title("Customer Phone"),
-            Column::make("date")->title("Date created at WooCommerce"),
-            Column::make("expire_at"),
+            Column::make("order.customer.first_name")->title("Customer First Name"),
+            Column::make("order.customer.last_name")->title("Customer Last Name"),
+            Column::make("content"),
             Column::make("updated_at"),
         ];
     }
@@ -99,6 +91,6 @@ class AccountsDataTable extends DataTable {
      * @return string
      */
     protected function filename(): string {
-        return 'Accounts_' . date('YmdHis');
+        return 'Notes_' . date('YmdHis');
     }
 }

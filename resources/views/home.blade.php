@@ -25,6 +25,15 @@
                                 <span class="visually-hidden">Total accounts</span>
                             </span>
                         </a>
+
+                        <a href="{{ route('note.index') }}" class="btn btn-primary position-relative me-5">
+                            Notes
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary text-dark">
+                                Total {{ $notes_total }}
+                                <span class="visually-hidden">Total notes</span>
+                            </span>
+                        </a>
                     </div>
                 </div>
             </div>

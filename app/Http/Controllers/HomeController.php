@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Note;
 use App\Models\Order;
 use App\Models\Account;
 use Illuminate\Http\Request;
@@ -21,8 +22,9 @@ class HomeController extends Controller {
     public function index() {
         $orders_total = Order::count();
         $accounts_total = Account::count();
+        $notes_total = Note::count();
 
-        return view("home", compact("orders_total", "accounts_total"));
+        return view("home", compact("orders_total", "accounts_total", "notes_total"));
     }
 
     public function token() {
