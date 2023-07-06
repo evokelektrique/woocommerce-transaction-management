@@ -30,6 +30,7 @@ class CustomerAccountExpired extends KavenegarBaseNotification {
     /**
      * Mail subject
      *
+     * @since 1.0.0
      * @var string
      */
     protected $mail_subject;
