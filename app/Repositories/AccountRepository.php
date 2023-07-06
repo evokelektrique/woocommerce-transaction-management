@@ -49,9 +49,9 @@ class AccountRepository {
      * @since 1.0.0
      * @param Order $order
      * @param array $account
-     * @return array
+     * @return Account
      */
-    public function createOrUpdate(Order $order, array $account): array {
+    public function createOrUpdate(Order $order, array $account): Account {
         // Generate expires at value
         $expires_at = Carbon::parse($account["field_date"]);
         $expires_at->addDays(intval($account["field_expire_days"]));
