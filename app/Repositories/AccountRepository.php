@@ -8,11 +8,26 @@ use App\Models\Account;
 use Illuminate\Http\Request;
 
 class AccountRepository {
+
+    /**
+     * Accounts bulb
+     *
+     * @since 1.0.0
+     * @var array
+     */
     private $accounts;
 
     public function __construct() {
         $this->accounts = [];
     }
+
+    /**
+     * Undocumented function
+     *
+     * @param Order $order
+     * @param Request $request
+     * @return void
+     */
     public function create(Order $order, Request $request) {
 
         // Delete all accounts for orders if it exists, just to prevent duplications
@@ -26,6 +41,14 @@ class AccountRepository {
         return $this->accounts;
     }
 
+    /**
+     * Find and insert or update the account in database
+     *
+     * @since 1.0.0
+     * @param Order $order
+     * @param array $account
+     * @return void
+     */
     public function createOrUpdate(Order $order, array $account) {
         // Generate expires at value
         $expires_at = Carbon::parse($account["field_date"]);
@@ -52,6 +75,14 @@ class AccountRepository {
         return $account;
     }
 
+    /**
+     * This function is only used for command line
+     *
+     * @since 1.0.0
+     * @param Account $Account
+     * @param array $data
+     * @return Account
+     */
     public function update(Account $Account, array $data): Account {
         return tap($Account)->update([
             "date"        => $data["date"],
@@ -63,6 +94,13 @@ class AccountRepository {
         ]);
     }
 
+    /**
+     * This function is not used anywhere
+     *
+     * @since 1.0.0
+     * @param Order $order
+     * @return void
+     */
     public function getOrderAccounts(Order $order) {
         return Account::where("order_id", $order->id)->get()->all();
     }
