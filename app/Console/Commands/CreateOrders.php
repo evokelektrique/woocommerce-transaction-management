@@ -2,9 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Http\Request;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 use App\Repositories\NoteRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\AccountRepository;
