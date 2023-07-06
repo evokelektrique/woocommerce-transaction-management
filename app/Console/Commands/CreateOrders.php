@@ -263,6 +263,7 @@ class CreateOrders extends Command {
                 "field_password"    => "_order_dynamic_fields|field_password|$key|0|value",
                 "field_code"        => "_order_dynamic_fields|field_code|$key|0|value",
                 "field_date"        => "_order_dynamic_fields|field_date|$key|0|value",
+                "field_guarantee"   => "_order_dynamic_fields|field_guarantee|$key|0|value",
                 "field_expire_days" => "_order_dynamic_fields|field_expire_days|$key|0|value",
             ];
 
