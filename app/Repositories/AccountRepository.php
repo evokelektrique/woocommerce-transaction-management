@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class AccountRepository {
 
     /**
-     * Accounts bulb
+     * Accounts temporary collection
      *
      * @since 1.0.0
      * @var array
@@ -22,13 +22,15 @@ class AccountRepository {
     }
 
     /**
-     * Undocumented function
+     * Delete order accounts and generate a list from `order_dynamic_fields` of order's meta data
+     * and insert them into database
      *
+     * @since 1.0.0
      * @param Order $order
      * @param Request $request
-     * @return void
+     * @return array
      */
-    public function create(Order $order, Request $request) {
+    public function create(Order $order, Request $request): array {
 
         // Delete all accounts for orders if it exists, just to prevent duplications
         // since we're using title field to detect updates.
@@ -47,13 +49,14 @@ class AccountRepository {
      * @since 1.0.0
      * @param Order $order
      * @param array $account
-     * @return void
+     * @return array
      */
-    public function createOrUpdate(Order $order, array $account) {
+    public function createOrUpdate(Order $order, array $account): array {
         // Generate expires at value
         $expires_at = Carbon::parse($account["field_date"]);
         $expires_at->addDays(intval($account["field_expire_days"]));
 
+        // Using Lock for updates to prevent race conditions
         $account = $order->accounts()->lockForUpdate()->updateOrCreate(
             [
                 "title" => $account["field_title"]
@@ -103,10 +106,17 @@ class AccountRepository {
      * @param Order $order
      * @return void
      */
-    public function getOrderAccounts(Order $order) {
+    public function getOrderAccounts(Order $order): Account {
         return Account::where("order_id", $order->id)->get()->all();
     }
 
+    /**
+     * Delete all accounts from order
+     *
+     * @since 1.0.0
+     * @param Order $order
+     * @return boolean
+     */
     public function deleteOrderAccounts(Order $order): bool {
         return $order->accounts()->delete();
     }
