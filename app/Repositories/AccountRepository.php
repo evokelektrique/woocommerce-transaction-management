@@ -66,6 +66,7 @@ class AccountRepository {
                 "password"    => $account["field_password"],
                 "username"    => $account["field_username"],
                 "expire_days" => $account["field_expire_days"],
+                "guarantee"   => $account["field_guarantee"],
                 "expire_at"   => $expires_at,
             ]
         );
@@ -90,6 +91,7 @@ class AccountRepository {
             "title"       => $data["title"],
             "username"    => $data["username"],
             "password"    => $data["password"],
+            "guarantee"   => $data["guarantee"],
             "expire_days" => $data["expire_days"],
         ]);
     }
