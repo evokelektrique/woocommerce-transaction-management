@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
-use Opcodes\LogViewer\Facades\LogViewer;
 
 class AppServiceProvider extends ServiceProvider {
     /**
@@ -32,13 +31,6 @@ class AppServiceProvider extends ServiceProvider {
             $view_name = str_replace('.', ' ', $view->getName());
 
             View::share('view_name', $view_name);
-        });
-
-        LogViewer::auth(function ($request) {
-            return $request->user()
-                && in_array($request->user()->email, [
-                    env('ADMIN_USER_EMAIL'),
-                ]);
         });
 
         // Force HTTPS

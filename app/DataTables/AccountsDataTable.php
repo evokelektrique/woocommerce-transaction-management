@@ -25,7 +25,8 @@ class AccountsDataTable extends DataTable {
             ->editColumn('updated_at', 'accounts.updated_at')
             ->editColumn('expire_at', 'accounts.expire_at')
             ->editColumn('date', 'accounts.date')
-            ->rawColumns(['variation', 'updated_at', "expire_at", "date"])
+            ->editColumn('guarantee', 'accounts.guarantee')
+            ->rawColumns(['variation', 'updated_at', "expire_at", "date", 'guarantee'])
             ->setRowId('id');
     }
 
@@ -83,6 +84,7 @@ class AccountsDataTable extends DataTable {
             Column::make("username"),
             Column::make("password"),
             Column::make("code"),
+            Column::make("guarantee"),
             Column::make("variation")->title("Order Variation"),
             Column::make("order.wc_order_id")->title("WooCommerce Order ID"),
             Column::make("order.customer.email")->title("Customer Email"),

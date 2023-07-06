@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use App\Models\Account;
-use App\Models\Customer;
 use Illuminate\Bus\Queueable;
 use Kavenegar\Laravel\Message\KavenegarMessage;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -12,8 +11,28 @@ use Kavenegar\Laravel\Notification\KavenegarBaseNotification;
 class CustomerAccountExpired extends KavenegarBaseNotification {
     use Queueable;
 
+    /**
+     * Temporary account variable
+     *
+     * @since 1.0.0
+     * @var Account
+     */
     protected $account;
+
+    /**
+     * Temporary Kavenegar's tokens variable
+     *
+     * @since 1.0.0
+     * @var array
+     */
     protected $tokens;
+
+    /**
+     * Mail subject
+     *
+     * @var string
+     */
+    protected $mail_subject;
 
     /**
      * Create a new notification instance.
@@ -26,10 +45,15 @@ class CustomerAccountExpired extends KavenegarBaseNotification {
 
         // Customer first name
         $this->tokens["token1"] = $this->account->order->customer->first_name;
+
         // Account title (White spaces are removed)
         $this->tokens["token2"] = str_replace(" ", "", $this->account->title);
+
         // WooCommerce order ID
         $this->tokens["token3"] = $this->account->order->wc_order_id;
+
+        // Mail Subject
+        $this->mail_subject = "سفارش {$this->tokens["token3"]} منقضی شده است";
     }
 
     public function via($notifiable) {
@@ -55,7 +79,7 @@ class CustomerAccountExpired extends KavenegarBaseNotification {
         $url = "https://account4all.ir/my-account/view-order/" . $this->tokens["token3"];
 
         return (new MailMessage)
-            ->subject("سفارش {$this->tokens["token3"]} منقضی شده است")
+            ->subject($this->mail_subject)
             ->markdown('mail.account.expired', [
                 'url' => $url,
                 "token1" => $this->tokens["token1"],

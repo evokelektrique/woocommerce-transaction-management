@@ -20,6 +20,7 @@ class Account extends Model {
         "expire_days",
         "expire_at",
         "notification_sent",
+        "guarantee",
     ];
 
     protected $casts = [

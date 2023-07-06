@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('accounts', function (Blueprint $table) {
-            $table->boolean("gaurantee")->default(false);
+            $table->boolean("guarantee")->default(false);
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('accounts', function (Blueprint $table) {
-            $table->dropColumn('gaurantee');
+            $table->dropColumn('guarantee');
         });
     }
 };

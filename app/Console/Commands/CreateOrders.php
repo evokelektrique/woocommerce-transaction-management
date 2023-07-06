@@ -13,6 +13,7 @@ class CreateOrders extends Command {
     /**
      * WooCommerce client SDK
      *
+     * @since 1.0.0
      * @var WooCommerce
      */
     private $woocommerce;
@@ -20,6 +21,7 @@ class CreateOrders extends Command {
     /**
      * Current page of woocommerce orders endpoint
      *
+     * @since 1.0.0
      * @var int
      */
     private $page;
@@ -27,6 +29,7 @@ class CreateOrders extends Command {
     /**
      * Customer Repository
      *
+     * @since 1.0.0
      * @var CustomerRepository
      */
     private $customerRepository;
@@ -34,6 +37,7 @@ class CreateOrders extends Command {
     /**
      * Order Repository
      *
+     * @since 1.0.0
      * @var OrderRepository
      */
     private $orderRepository;
@@ -41,6 +45,7 @@ class CreateOrders extends Command {
     /**
      * Note Repository
      *
+     * @since 1.0.0
      * @var NoteRepository
      */
     private $noteRepository;
@@ -48,12 +53,15 @@ class CreateOrders extends Command {
     /**
      * Customer Repository
      *
+     * @since 1.0.0
      * @var AccountRepository
      */
     private $accountRepository;
 
     /**
      * Total items per page
+     *
+     * @since 1.0.0
      */
     const PER_PAGE_ITEM = 100;
 
@@ -71,6 +79,7 @@ class CreateOrders extends Command {
     /**
      * The name and signature of the console command.
      *
+     * @since 1.0.0
      * @var string
      */
     protected $signature = 'order:create';
@@ -78,6 +87,7 @@ class CreateOrders extends Command {
     /**
      * The console command description.
      *
+     * @since 1.0.0
      * @var string
      */
     protected $description = 'Fetch orders from WooCommerce website and insert them into database';
@@ -85,6 +95,7 @@ class CreateOrders extends Command {
     /**
      * Execute the console command.
      *
+     * @since 1.0.0
      * @return int
      */
     public function handle() {
@@ -159,6 +170,7 @@ class CreateOrders extends Command {
     /**
      * Fetch customer data by its ID from WooCommerce website
      *
+     * @since 1.0.0
      * @param integer $customer_id
      * @return array
      */
@@ -184,6 +196,7 @@ class CreateOrders extends Command {
     /**
      * Fetch orders from WooCommerce
      *
+     * @since 1.0.0
      * @param integer $page
      * @return mixed
      */
@@ -197,6 +210,7 @@ class CreateOrders extends Command {
     /**
      * Fetch total orders from X-WP-Total header of Guzzle http client
      *
+     * @since 1.0.0
      * @return integer
      */
     private function get_total_items(): int {
@@ -209,6 +223,7 @@ class CreateOrders extends Command {
     /**
      * Calculate total pages
      *
+     * @since 1.0.0
      * @param integer $total_items
      * @return integer
      */
@@ -240,6 +255,7 @@ class CreateOrders extends Command {
     /**
      * Retrieve accounts from meta data
      *
+     * @since 1.0.0
      * @param array $meta_data
      * @return array
      */
@@ -277,6 +293,13 @@ class CreateOrders extends Command {
         return $accounts;
     }
 
+    /**
+     * Fetch Carbon fields from product fields of its meta data
+     *
+     * @since 1.0.0
+     * @param object $wc_order
+     * @return array
+     */
     private function get_order_product_fields(object $wc_order): array {
         $data = [];
         $keys = ["telegram" => "_billing_telegram", "whatsapp" => "_billing_whatsapp"];

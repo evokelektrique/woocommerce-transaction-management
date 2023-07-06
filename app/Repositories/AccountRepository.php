@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\Account;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AccountRepository {
 
@@ -55,6 +56,8 @@ class AccountRepository {
         // Generate expires at value
         $expires_at = Carbon::parse($account["field_date"]);
         $expires_at->addDays(intval($account["field_expire_days"]));
+
+        Log::info($account);
 
         // Using Lock for updates to prevent race conditions
         $account = $order->accounts()->lockForUpdate()->updateOrCreate(
