@@ -23,7 +23,9 @@ class AccountsDataTable extends DataTable {
         return (new EloquentDataTable($query))
             ->addColumn('variation', 'accounts.variation')
             ->editColumn('updated_at', 'accounts.updated_at')
-            ->editColumn('expire_at', 'accounts.expire_at')
+            ->editColumn('expire_at', function(Account $account) {
+                return $account->expire_at->format('Y-m-d H:i:s');
+            })
             ->editColumn('date', 'accounts.date')
             ->editColumn('guarantee', 'accounts.guarantee')
             ->rawColumns(['variation', 'updated_at', "expire_at", "date", 'guarantee'])
