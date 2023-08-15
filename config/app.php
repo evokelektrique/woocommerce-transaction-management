@@ -1,6 +1,5 @@
 <?php
 
-use App\Providers\WooCommerceServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
 return [
