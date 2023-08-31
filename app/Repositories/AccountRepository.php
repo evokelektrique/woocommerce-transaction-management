@@ -81,7 +81,7 @@ class AccountRepository {
             return $account;
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return null;
+            return false;
         }
     }
 
