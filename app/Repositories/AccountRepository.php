@@ -52,34 +52,37 @@ class AccountRepository {
      * @param array $account
      * @return Account
      */
-    public function createOrUpdate(Order $order, array $account): Account {
+    public function createOrUpdate(Order $order, array $account): Account|bool {
         // Generate expires at value
         $expires_at = Carbon::parse($account["field_date"]);
         $expires_at->addDays(intval($account["field_expire_days"]));
 
         Log::info($account);
 
-        // Using Lock for updates to prevent race conditions
-        $account = $order->accounts()->lockForUpdate()->updateOrCreate(
-            [
-                "title" => $account["field_title"]
-            ],
-            [
-                "title"       => $account["field_title"],
-                "code"        => $account["field_code"],
-                "date"        => $account["field_date"],
-                "email"       => $account["field_email"],
-                "password"    => $account["field_password"],
-                "username"    => $account["field_username"],
-                "expire_days" => isset($account["field_expire_days"]) ? $account["field_expire_days"] : now(),
-                "guarantee"   => isset($account["field_guarantee"]) ? $account["field_guarantee"] : false,
-                "expire_at"   => $expires_at,
-            ]
-        );
-
-        $this->accounts[] = $account;
-
-        return $account;
+        try {
+            // Using Lock for updates to prevent race conditions
+            $account = $order->accounts()->lockForUpdate()->updateOrCreate(
+                [
+                    "title" => $account["field_title"]
+                ],
+                [
+                    "title"       => $account["field_title"],
+                    "code"        => $account["field_code"],
+                    "date"        => $account["field_date"],
+                    "email"       => $account["field_email"],
+                    "password"    => $account["field_password"],
+                    "username"    => $account["field_username"],
+                    "expire_days" => isset($account["field_expire_days"]) ? $account["field_expire_days"] : now(),
+                    "guarantee"   => isset($account["field_guarantee"]) ? $account["field_guarantee"] : false,
+                    "expire_at"   => $expires_at,
+                ]
+            );
+            $this->accounts[] = $account;
+            return $account;
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return null;
+        }
     }
 
     /**
