@@ -71,7 +71,7 @@ class AccountRepository {
                 "email"       => $account["field_email"],
                 "password"    => $account["field_password"],
                 "username"    => $account["field_username"],
-                "expire_days" => $account["field_expire_days"],
+                "expire_days" => isset($account["field_expire_days"]) ? $account["field_expire_days"] : now(),
                 "guarantee"   => isset($account["field_guarantee"]) ? $account["field_guarantee"] : false,
                 "expire_at"   => $expires_at,
             ]
