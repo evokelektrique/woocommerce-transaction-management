@@ -2,13 +2,14 @@
 
 namespace App\DataTables;
 
+use Carbon\Carbon;
 use App\Models\Order;
-use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Yajra\DataTables\EloquentDataTable;
-use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Services\DataTable;
+use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
 class OrdersDataTable extends DataTable {
     /**
@@ -34,7 +35,16 @@ class OrdersDataTable extends DataTable {
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Order $model): QueryBuilder {
-        return $model->newQuery()->with(["notes", "customer"]);
+        $query = $model->newQuery()->with(["notes", "customer"]);
+
+        if (isset($this->attributes['datepicker'])) {
+            $query->whereBetween('created_at', [
+                Carbon::createFromFormat('Y-m-d', $this->attributes['datepicker'][0]),
+                Carbon::createFromFormat('Y-m-d', $this->attributes['datepicker'][1])
+            ]);
+        }
+
+        return $query;
     }
 
     /**
@@ -66,7 +76,8 @@ class OrdersDataTable extends DataTable {
                 'responsive' => true,
                 'autoWidth' => false,
                 'lengthMenu' => [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            ]);
+            ])
+            ->ajaxWithForm('', '#form-orders-table');
     }
 
     /**

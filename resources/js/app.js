@@ -1,5 +1,7 @@
 import "./bootstrap";
 import "laravel-datatables-vite";
+import { easepick } from "@easepick/bundle";
+import { RangePlugin } from "@easepick/range-plugin";
 
 window.draw_popovers = () => {
     const popoverTriggerList = document.querySelectorAll(
@@ -55,6 +57,25 @@ window.initalize_datatable = (table) => {
                     column.search(val).draw();
                 });
         });
+
+    const datepicker_element = document.getElementById("datepicker");
+    console.log(datepicker_element);
+    const picker = new easepick.create({
+        element: datepicker_element,
+        css: [
+            "https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css",
+        ],
+        zIndex: 10,
+        firstDay: 6,
+        grid: 2,
+        calendars: 2,
+        plugins: [RangePlugin],
+    });
+
+    datepicker_element.addEventListener("change", (e) => {
+        console.log(e, 'changed');
+        table.api().column(column_order_status).draw();
+    });
 };
 
 function support_note_event_listener() {

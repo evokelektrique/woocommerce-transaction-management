@@ -58,7 +58,13 @@ class OrderController extends Controller {
     }
 
     public function index(OrdersDataTable $dataTable): mixed {
-        return $dataTable->render('orders.index');
+        $data = [];
+
+        if(request()->filled('datepicker')) {
+            $data['datepicker'] = explode(' - ', request()->get('datepicker'));
+        }
+
+        return $dataTable->with($data)->render('orders.index');
     }
 
     public function update_support_note(Order $order, Request $request): JsonResponse {

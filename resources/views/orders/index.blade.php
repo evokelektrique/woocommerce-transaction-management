@@ -24,6 +24,18 @@
                         {{-- Custom filters --}}
                         <div class="custom-filters row row-cols-auto mb-3 border-bottom rounded pb-3">
                             <div class="col-12 col-lg-2">
+                                <form id="form-orders-table">
+                                    <label for="filter-date-picker" class="form-label d-block">Date Range Picker</label>
+
+                                    <div class="d-flex gap-2">
+                                        <input type="text" class="form-control text-center" id="datepicker" name="datepicker"
+                                            value="{{ request()->get('datepicker') ?? '' }}">
+                                        <button type="submit" class="btn btn-sm btn-outline-success">Apply</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="col-12 col-lg-2">
 
                                 <label for="filter-order-status" class="form-label">Order status</label>
                                 <select id="filter-order-status" class="form-select">

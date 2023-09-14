@@ -18,6 +18,8 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@easepick/bundle": "^1.2.1",
+        "@easepick/range-plugin": "^1.2.1",
         "pusher": "^5.1.2"
     }
 }
