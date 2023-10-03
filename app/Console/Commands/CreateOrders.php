@@ -334,6 +334,8 @@ class CreateOrders extends Command {
 
             $data[$index] = [
                 "product_name" => $item->name,
+                "product_id"   => $item->product_id,
+                "variation_id" => $item->variation_id,
                 "quantity"     => $item->quantity,
                 "variations"   => $variations,
             ];
