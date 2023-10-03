@@ -59,23 +59,24 @@ window.initalize_datatable = (table) => {
         });
 
     const datepicker_element = document.getElementById("datepicker");
-    console.log(datepicker_element);
-    const picker = new easepick.create({
-        element: datepicker_element,
-        css: [
-            "https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css",
-        ],
-        zIndex: 10,
-        firstDay: 6,
-        grid: 2,
-        calendars: 2,
-        plugins: [RangePlugin],
-    });
+    if (datepicker_element) {
+        const picker = new easepick.create({
+            element: datepicker_element,
+            css: [
+                "https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css",
+            ],
+            zIndex: 10,
+            firstDay: 6,
+            grid: 2,
+            calendars: 2,
+            plugins: [RangePlugin],
+        });
 
-    datepicker_element.addEventListener("change", (e) => {
-        console.log(e, 'changed');
-        table.api().column(column_order_status).draw();
-    });
+        datepicker_element.addEventListener("change", (e) => {
+            console.log(e, 'changed');
+            table.api().column(column_order_status).draw();
+        });
+    }
 };
 
 function support_note_event_listener() {
