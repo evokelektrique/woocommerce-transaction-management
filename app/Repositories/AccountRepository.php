@@ -57,8 +57,6 @@ class AccountRepository {
         $expires_at = Carbon::parse($account["field_date"]);
         $expires_at->addDays(intval($account["field_expire_days"]));
 
-        Log::info($account);
-
         try {
             // Using Lock for updates to prevent race conditions
             $account = $order->accounts()->lockForUpdate()->updateOrCreate(
@@ -73,7 +71,7 @@ class AccountRepository {
                     "password"    => $account["field_password"],
                     "username"    => $account["field_username"],
                     "expire_days" => isset($account["field_expire_days"]) ? $account["field_expire_days"] : now(),
-                    "guarantee"   => isset($account["field_guarantee"]) ? $account["field_guarantee"] : false,
+                    "guarantee"   => empty($account["field_guarantee"]) ? false : true,
                     "expire_at"   => $expires_at,
                 ]
             );
