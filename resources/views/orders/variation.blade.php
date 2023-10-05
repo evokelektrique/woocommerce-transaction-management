@@ -33,7 +33,11 @@
 
                 {{-- Variation ID --}}
                 <span class="d-inline-block">
-                    variation_id:({{ $variation['variation_id'] }})
+                    @isset($variation['variation_id'])
+                        variation_id:({{ $variation['variation_id'] }})
+                    @else
+                        variation_id:(EMPTY)
+                    @endisset
                     &bull;
                 </span>
 

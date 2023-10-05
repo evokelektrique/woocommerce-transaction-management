@@ -1,6 +1,6 @@
 <div class="d-flex gap-1 flex-column">
-    @if (gettype($order["variation"]) === 'string')
-        @foreach (json_decode($order["variation"], true) as $variation)
+    @if (gettype($order['variation']) === 'string')
+        @foreach (json_decode($order['variation'], true) as $variation)
             <div class="text-dark">
                 {{-- Product name --}}
                 <span class="d-inline-block">
@@ -28,12 +28,16 @@
             </div>
         @endforeach
     @else
-        @foreach ($order["variation"] as $variation)
+        @foreach ($order['variation'] as $variation)
             <div class="text-dark">
 
                 {{-- Variation ID --}}
                 <span class="d-inline-block">
-                    variation_id:({{ $variation['variation_id'] }})
+                    @isset($variation['variation_id'])
+                        variation_id:({{ $variation['variation_id'] }})
+                    @else
+                        variation_id:(EMPTY)
+                    @endisset
                     &bull;
                 </span>
 
