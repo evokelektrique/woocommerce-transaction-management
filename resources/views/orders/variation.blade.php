@@ -43,7 +43,11 @@
 
                 {{-- Product ID --}}
                 <span class="d-inline-block">
-                    product_id:({{ $variation['product_id'] }})
+                    @isset($variation['variation_id'])
+                        product_id:({{ $variation['product_id'] }})
+                    @else
+                        product_id:(EMPTY)
+                    @endisset
                     &bull;
                 </span>
 
