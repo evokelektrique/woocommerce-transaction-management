@@ -32,7 +32,7 @@
             <div class="text-dark">
 
                 {{-- Variation ID --}}
-                <span class="d-inline-block">
+                <span class="d-inline-block d-none">
                     @isset($variation['variation_id'])
                         variation_id:({{ $variation['variation_id'] }})
                     @else
@@ -42,7 +42,7 @@
                 </span>
 
                 {{-- Product ID --}}
-                <span class="d-inline-block">
+                <span class="d-inline-block d-none">
                     @isset($variation['variation_id'])
                         product_id:({{ $variation['product_id'] }})
                     @else
