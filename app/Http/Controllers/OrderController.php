@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Repositories\OrderRepository;
 use App\Repositories\CustomerRepository;
 use App\Repositories\AccountRepository;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller {
 
@@ -60,7 +61,7 @@ class OrderController extends Controller {
     public function index(OrdersDataTable $dataTable): mixed {
         $data = [];
 
-        if(request()->filled('datepicker')) {
+        if (request()->filled('datepicker')) {
             $data['datepicker'] = explode(' - ', request()->get('datepicker'));
         }
 
@@ -78,6 +79,8 @@ class OrderController extends Controller {
     }
 
     public function create(Request $request): JsonResponse {
+        Log::info('incoming request', $request->toArray());
+
         if (empty($request->customer['email']) && empty($request->customer['phone'])) {
             return response()->json(["message" => "Email and phone not found"], 403);
         }

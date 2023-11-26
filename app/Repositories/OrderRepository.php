@@ -18,6 +18,10 @@ class OrderRepository {
                 "price" => $request->order['price'],
                 "metadata" => $request->metadata,
                 "variation" => $this->get_variations($request->order['items']),
+                "wc_created_at" => $request->order['dates']['created_at']['date'] ?? null,
+                "wc_paid_at" => $request->order['dates']['paid_at']['date'] ?? null,
+                "wc_modified_at" => $request->order['dates']['modified_at']['date'] ?? null,
+                "wc_completed_at" => $request->order['dates']['completed_at']['date'] ?? null,
             ]
         );
     }

@@ -13,7 +13,11 @@ class Order extends Model {
 
     protected $casts = [
         'variation' => 'array',
-        'metadata' => 'array'
+        'metadata' => 'array',
+        "wc_created_at" => "datetime",
+        "wc_paid_at" => "datetime",
+        "wc_modified_at" => "datetime",
+        "wc_completed_at" => "datetime",
     ];
 
     protected $fillable = [
@@ -23,6 +27,10 @@ class Order extends Model {
         "metadata",
         "status",
         "support_note",
+        "wc_created_at",
+        "wc_paid_at",
+        "wc_modified_at",
+        "wc_completed_at",
     ];
 
     public function customer(): BelongsTo {
