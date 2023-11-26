@@ -24,6 +24,18 @@ class OrdersDataTable extends DataTable {
             ->addColumn('variation', 'orders.variation')
             ->addColumn('notes', 'orders.support_note')
             ->editColumn('updated_at', 'orders.updated_at')
+            ->editColumn('wc_created_at', function(Order $order) {
+                return $order->wc_created_at->format('Y-m-d H:i:s');
+            })
+            ->editColumn('wc_paid_at', function(Order $order) {
+                return $order->wc_paid_at->format('Y-m-d H:i:s');
+            })
+            ->editColumn('wc_modified_at', function(Order $order) {
+                return $order->wc_modified_at->format('Y-m-d H:i:s');
+            })
+            ->editColumn('wc_completed_at', function(Order $order) {
+                return $order->wc_completed_at->format('Y-m-d H:i:s');
+            })
             ->rawColumns(['action', 'variation', 'notes', 'updated_at'])
             ->setRowId('wc_order_id');
     }
@@ -38,7 +50,7 @@ class OrdersDataTable extends DataTable {
         $query = $model->newQuery()->with(["notes", "customer"]);
 
         if (isset($this->attributes['datepicker'])) {
-            $query->whereBetween('created_at', [
+            $query->whereBetween('wc_created_at', [
                 Carbon::createFromFormat('Y-m-d', $this->attributes['datepicker'][0]),
                 Carbon::createFromFormat('Y-m-d', $this->attributes['datepicker'][1])
             ]);
@@ -95,6 +107,10 @@ class OrdersDataTable extends DataTable {
             Column::make("customer.last_name")->title("Last name"),
             Column::computed('notes'),
             Column::make('updated_at'),
+            Column::make("wc_created_at")->title("Date created at WooCommerce"),
+            Column::make("wc_paid_at")->title("Date paid at WooCommerce"),
+            Column::make("wc_modified_at")->title("Date modified at WooCommerce"),
+            Column::make("wc_completed_at")->title("Date completed at WooCommerce"),
             Column::computed('action')->printable(false)->exportable(false)->searchPanes(false)
         ];
     }
